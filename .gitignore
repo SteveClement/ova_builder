@@ -3,6 +3,6 @@ packer_cache/
 
 # For built boxes
 *.box
-output-*
-private/
-private/*
+*output-*
+*private/
+*private/*
