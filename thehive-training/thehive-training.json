@@ -1,0 +1,107 @@
+{
+  "variables": {
+    "core": "2",
+    "memory": "4096",
+    "disk_size": "20000",
+    "ssh_port": "22",
+    "ssh_wait_timeout": "10000s",
+    "iso_url": "http://releases.ubuntu.com/xenial/ubuntu-16.04.3-server-amd64.iso",
+    "iso_md5": "10fcd20619dce11fe094e960c85ba4a9",
+    "vm_name": "thehive-training",
+    "vm_description": "TheHive training Virtual Machine",
+    "vm_version": "3.0.1"
+  },
+  "builders": [{
+    "name": "thehive",
+    "type": "virtualbox-iso",
+    "format":"ova",
+    "guest_os_type": "Ubuntu_64",
+    "iso_url": "{{user `iso_url`}}",
+    "iso_checksum": "{{user `iso_md5`}}",
+    "iso_checksum_type": "md5",
+    "vm_name": "{{user `vm_name`}}",
+    "headless": true,
+    "http_directory": "http",
+    "disk_size": "{{user `disk_size`}}",
+    "hard_drive_interface": "sata",
+    "ssh_username": "thehive",
+    "ssh_password": "thehive1234",
+    "ssh_wait_timeout": "1200s",
+    "shutdown_command": "echo 'Shutting down thehive' | sudo -S shutdown -P now",
+    "export_opts":
+     [
+     "--manifest",
+     "--vsys", "0",
+     "--description", "{{user `vm_description`}}",
+     "--version", "{{user `vm_version`}}"
+     ],
+    "boot_command": [
+        "<enter><wait><f6><esc><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+        "/install/vmlinuz<wait>",
+        " auto<wait>",
+        " console-setup/ask_detect=false<wait>",
+        " console-setup/layoutcode=us<wait>",
+        " console-setup/modelcode=pc105<wait>",
+        " debconf/frontend=noninteractive<wait>",
+        " debian-installer=en_US<wait>",
+        " fb=false<wait>",
+        " initrd=/install/initrd.gz<wait>",
+        " kbd-chooser/method=us<wait>",
+        " keyboard-configuration/layout=USA<wait>",
+        " keyboard-configuration/variant=USA<wait>",
+        " locale=en_US<wait>",
+        " netcfg/get_domain=vm<wait>",
+        " netcfg/get_hostname=thehive-training<wait>",
+        " grub-installer/bootdev=/dev/sda<wait>",
+        " noapic<wait>",
+        " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg",
+        " -- <wait>",
+        "<enter><wait>"
+      ],
+    "vboxmanage": [
+        ["modifyvm", "{{.Name}}", "--memory", "{{user `memory`}}"],
+        ["modifyvm", "{{.Name}}", "--cpus", "{{user `core`}}"],
+        ["modifyvm", "{{.Name}}", "--natpf1", "ssh,tcp,127.0.0.1,2222,,22"]
+    ]
+  }],
+    "provisioners": [
+	{
+    		"type": "shell",
+    		"execute_command": "echo 'thehive1234' | {{.Vars}} sudo -S -E bash '{{.Path}}'",
+    		"script": "scripts/user.sh"
+  	},
+	{
+    		"type": "shell",
+    		"execute_command": "echo | {{.Vars}} sudo -S -E bash '{{.Path}}'",
+    		"script": "scripts/interfaces.sh"
+  	},
+	{
+    		"type": "shell",
+    		"execute_command": "{{.Vars}} sudo -S -E bash '{{.Path}}'",
+    		"script": "scripts/installation.sh"
+  	},
+	{
+	        "destination": "/tmp/thehive_training-application.conf",
+	        "source": "conffiles/thehive_training-application.conf",
+	        "type": "file"
+	},
+	{
+	        "destination": "/tmp/cortex_training-application.conf",
+	        "source": "conffiles/cortex_training-application.conf",
+	        "type": "file"
+	},
+	{
+    		"type": "shell",
+    		"execute_command": "{{.Vars}} sudo -S -E bash '{{.Path}}'",
+    		"script": "scripts/configuration.sh"
+  	},
+	{
+		"type": "shell",
+		"execute_command":"{{.Vars}} sudo -S -E bash '{{.Path}}'",
+		"script":"scripts/clean.sh"
+	}
+    ]
+}
