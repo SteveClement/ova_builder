@@ -57,7 +57,7 @@ packer build thehive-training.json
 packer build thehive-training_with_vagrant.json
 ```
 
-`thehive-training.ova` file is built in `output-thehive` folder created by packer program.
+`thehive-training.ova` file is built and placed in `output-thehive` folder created by packer program.
 It is ready to be imported in VMware and Virtualbox.
 
 
