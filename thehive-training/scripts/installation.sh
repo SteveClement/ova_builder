@@ -78,3 +78,5 @@ echo "--- Installing Cortex-Analyzers"
  apt-get install -y python-pip python2.7-dev ssdeep libfuzzy-dev libfuzzy2 libimage-exiftool-perl libmagic1 build-essential libssl-dev >  /dev/null 2>&1
  pip install -U pip > /dev/null 2>&1
  cd /opt/Cortex-Analyzers/analyzers && pip install $(sort -u */requirements.txt) >  /dev/null 2>&1
+ pip install thehive4py > /dev/null 2>&1 
+ pip install cortex4py > /dev/null 2>&1
