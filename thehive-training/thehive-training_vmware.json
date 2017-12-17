@@ -118,11 +118,6 @@
     {
         "type": "shell-local",
         "inline": ["{{ user `ovftool_path` }} output-thehive-training/thehive-training.vmx thehive-training.ova"]
-    },
-    {
-    "type": "vagrant",
-    "compression_level": "4",
-    "keep_input_artifact": true
-  }
+    }
 ]
 }
