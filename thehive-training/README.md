@@ -2,7 +2,13 @@
 
 ## Requirements
 
+#### Virtualization solution
+
 - Virtualbox
+- VMWare Fusion with vftool (https://www.vmware.com/support/developer/ovf/)
+
+#### Additional softwares
+
 - packer 
 - vagrant (optional)
 
@@ -12,7 +18,6 @@
 ```
 .
 ├── README.md
-├── Vagrantfile
 ├── conffiles
 │   ├── cortex_training-application.conf
 │   └── thehive_training-application.conf
@@ -25,8 +30,8 @@
 │   ├── installation.sh
 │   ├── interfaces.sh
 │   └── user.sh
-├── thehive-training.json
-└── thehive-training_with_vagrant.json
+├── thehive-training_virtualbox.json
+└── thehive-training_vmware.json
 ```
 
 - `Vagrantfile` is used to init and start a vagrant box created by packer
@@ -40,21 +45,21 @@
 
 - Validate recipe  json file
 
-
 ```
-packer validate thehive-training.json
-```
-
-- Build OVA file
-
-```
-packer build thehive-training.json
+packer validate thehive-training_virtualbox.json
 ```
 
-- Build OVA and .box file for Vagrant
+- Build OVA file with virtualbox
 
 ```
-packer build thehive-training_with_vagrant.json
+packer build thehive-training_virtualbox.json
+```
+
+- Build OVA file with VMware Fusion
+
+
+```
+packer build thehive-training_vmware.json
 ```
 
 `thehive-training.ova` file is built and placed in `output-thehive` folder created by packer program.
