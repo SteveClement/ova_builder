@@ -6,3 +6,4 @@ packer_cache/
 *output-*
 *private/
 *private/*
+*.ova
