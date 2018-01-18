@@ -5,7 +5,7 @@
 #### Virtualization solution
 
 - Virtualbox
-- VMWare Fusion with vftool (https://www.vmware.com/support/developer/ovf/)
+- VMWare Fusion with ovftool (https://www.vmware.com/support/developer/ovf/)
 
 #### Additional softwares
 
