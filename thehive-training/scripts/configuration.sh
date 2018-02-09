@@ -27,7 +27,7 @@ cp -f /tmp/thehive_training-application.conf /home/thehive/
 echo "--- Generating random"  
 random=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 64 | head -n 1)
 echo "--- Changing secret"                          
-sed  -r  "s/^#(play.crypto.secret=).*/\1\"$random\"/" /home/thehive/thehive_training-application.conf | tee /home/thehive/thehive-application.conf > /dev/null 2>&1
+sed  -r  "s/^#(play.http.secret.key=).*/\1\"$random\"/" /home/thehive/thehive_training-application.conf | tee /home/thehive/thehive-application.conf > /dev/null 2>&1
 sleep 10
 cp -f /home/thehive/thehive-application.conf /etc/thehive/application.conf
 

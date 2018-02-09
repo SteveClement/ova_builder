@@ -7,3 +7,6 @@ packer_cache/
 *private/
 *private/*
 *.ova
+
+#other
+admin
