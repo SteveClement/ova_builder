@@ -57,7 +57,7 @@
         " netcfg/get_hostname=thehive-training<wait>",
         " grub-installer/bootdev=/dev/sda<wait>",
         " noapic<wait>",
-        " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg",
+        " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ubuntu1604/preseed.cfg",
         " -- <wait>",
         "<enter><wait>"
       ],
@@ -71,37 +71,37 @@
 	{
     		"type": "shell",
     		"execute_command": "echo 'thehive1234' | {{.Vars}} sudo -S -E bash '{{.Path}}'",
-    		"script": "scripts/user.sh"
+    		"script": "scripts/thehive-training/user.sh"
   	},
 	{
     		"type": "shell",
     		"execute_command": "echo | {{.Vars}} sudo -S -E bash '{{.Path}}'",
-    		"script": "scripts/interfaces.sh"
+    		"script": "scripts/thehive-training/interfaces.sh"
   	},
 	{
     		"type": "shell",
     		"execute_command": "{{.Vars}} sudo -S -E bash '{{.Path}}'",
-    		"script": "scripts/installation.sh"
+    		"script": "scripts/thehive-training/installation.sh"
   	},
 	{
 	        "destination": "/tmp/thehive_training-application.conf",
-	        "source": "conffiles/thehive_training-application.conf",
+	        "source": "conffiles/thehive-training/thehive_training-application.conf",
 	        "type": "file"
 	},
 	{
 	        "destination": "/tmp/cortex_training-application.conf",
-	        "source": "conffiles/cortex_training-application.conf",
+	        "source": "conffiles/thehive-training/cortex_training-application.conf",
 	        "type": "file"
 	},
 	{
     		"type": "shell",
     		"execute_command": "{{.Vars}} sudo -S -E bash '{{.Path}}'",
-    		"script": "scripts/configuration.sh"
+    		"script": "scripts/thehive-training/configuration.sh"
   	},
 	{
 		"type": "shell",
 		"execute_command":"{{.Vars}} sudo -S -E bash '{{.Path}}'",
-		"script":"scripts/clean.sh"
+		"script":"scripts/thehive-training/clean.sh"
 	}
     ]
 }

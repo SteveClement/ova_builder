@@ -10,7 +10,6 @@
 #### Additional softwares
 
 - packer 
-- vagrant (optional)
 
 
 ## Tree
@@ -19,26 +18,28 @@
 .
 ├── README.md
 ├── conffiles
-│   ├── cortex_training-application.conf
-│   └── thehive_training-application.conf
+│   └── thehive-training
+│       ├── cortex_training-application.conf
+│       └── thehive_training-application.conf
 ├── http
-│   └── preseed.cfg
+│   └── ubuntu1604
+│       └── preseed.cfg
 ├── scripts
-│   ├── bootstrap.sh
-│   ├── clean.sh
-│   ├── configuration.sh
-│   ├── installation.sh
-│   ├── interfaces.sh
-│   └── user.sh
+│   └── thehive-training
+│       ├── bootstrap.sh
+│       ├── clean.sh
+│       ├── configuration.sh
+│       ├── installation.sh
+│       ├── interfaces.sh
+│       └── user.sh
 ├── thehive-training_virtualbox.json
 └── thehive-training_vmware.json
 ```
 
-- `Vagrantfile` is used to init and start a vagrant box created by packer
-- `conffiles` contains cortex and thehive application.conf files ready
+- `conffiles/thehive-training` contains cortex and thehive application.conf files ready
   to setup the training VM
-- `http/pressed.cfg` if ready to install Ubunutu server xenial 64bits (16.04)
-- `scripts` contains all bootstrap scripts need to install and setup
+- `http/ubuntu1604/pressed.cfg` if ready to install Ubunutu server xenial 64bits (16.04)
+- `scripts/thehive-training` contains all bootstrap scripts need to install and setup
   thehive, cortex and Cortex-Analyzers 
 
 ## Run
