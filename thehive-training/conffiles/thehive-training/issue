@@ -7,6 +7,6 @@ IP address: \4{eth0}
 ---
 
 TheHive -> http://\4{eth0}.9000
-Cortex  -> http://\4{eth0}:9999
+Cortex  -> http://\4{eth0}:9001
 
 ----
