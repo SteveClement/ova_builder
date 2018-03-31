@@ -20,20 +20,23 @@
 ├── conffiles
 │   └── thehive-training
 │       ├── cortex_training-application.conf
+│       ├── issue
 │       └── thehive_training-application.conf
 ├── http
-│   └── ubuntu1604
-│       └── preseed.cfg
+│   └── thehive-training
+│       └── preseed.cfg
 ├── scripts
 │   └── thehive-training
 │       ├── bootstrap.sh
 │       ├── clean.sh
 │       ├── configuration.sh
+│       ├── init_cortex.sh
 │       ├── installation.sh
 │       ├── interfaces.sh
 │       └── user.sh
 ├── thehive-training_virtualbox.json
 └── thehive-training_vmware.json
+
 ```
 
 - `conffiles/thehive-training` contains cortex and thehive application.conf files ready

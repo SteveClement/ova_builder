@@ -9,11 +9,11 @@
     "vm_ssh_username":"thehive",
     "vm_ssh_password":"thehive1234",
     "vm_ssh_wait_timeout": "1200s",
-    "iso_url": "http://releases.ubuntu.com/xenial/ubuntu-16.04.3-server-amd64.iso",
-    "iso_md5": "10fcd20619dce11fe094e960c85ba4a9",
+    "iso_url": "http://releases.ubuntu.com/16.04.4/ubuntu-16.04.4-server-amd64.iso",
+    "iso_md5": "6a7f31eb125a0b2908cf2333d7777c82",
     "vm_name": "thehive-training",
     "vm_description": "TheHive training Virtual Machine",
-    "vm_version": "3.0.6",
+    "vm_version": "3.0.7",
     "ovftool_path": "ovftool"
   },
   "builders": [{
@@ -55,7 +55,7 @@
         " netcfg/get_hostname=thehive-training<wait>",
         " grub-installer/bootdev=/dev/sda<wait>",
         " noapic<wait>",
-        " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ubuntu1604/preseed.cfg",
+        " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/thehive-training/preseed.cfg",
         " -- <wait>",
         "<enter><wait>"
       ],
@@ -108,7 +108,17 @@
     		"execute_command": "{{.Vars}} sudo -S -E bash '{{.Path}}'",
     		"script": "scripts/{{user `builder_name`}}/configuration.sh"
   	},
-	{
+    {
+            "type": "shell",
+            "execute_command": "{{.Vars}} sudo -S -E bash '{{.Path}}'",
+            "script": "scripts/{{user `builder_name`}}/init_cortex.sh"
+    },
+    {
+            "destination": "/tmp/issue",
+            "source": "conffiles/{{user `builder_name`}}/issue",
+            "type": "file"
+    },
+    {
 		"type": "shell",
 		"execute_command":"{{.Vars}} sudo -S -E bash '{{.Path}}'",
 		"script":"scripts/{{user `builder_name`}}/clean.sh"
@@ -117,7 +127,7 @@
   "post-processors": [
     {
         "type": "shell-local",
-        "inline": ["{{ user `ovftool_path` }} output-{{user `builder_name`}}/{{user `builder_name`}}.vmx {{user `builder_name`}}.ova"]
+        "inline": ["{{ user `ovftool_path` }} output-{{user `builder_name`}}/{{user `vm_name`}}.vmx {{user `vm_name`}}.ova"]
     }
 ]
 }

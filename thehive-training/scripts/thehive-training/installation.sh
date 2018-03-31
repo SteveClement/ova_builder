@@ -35,6 +35,9 @@ echo "deb https://artifacts.elastic.co/packages/5.x/apt stable main" |  tee -a /
 echo "--- Installing Elasticsearch"
  apt-get update > /dev/null 2>&1
  apt-get install elasticsearch > /dev/null 2>&1
+ 
+ mkdir -p /opt/backup
+ chown elasticsearch:elasticsearch /opt/backup
 
 echo "--- Configuring Elasticsearch"
  cat >> /etc/elasticsearch/elasticsearch.yml <<EOF
@@ -45,13 +48,12 @@ cluster.name: hive
 thread_pool.index.queue_size: 100000
 thread_pool.search.queue_size: 100000
 thread_pool.bulk.queue_size: 100000
+path.repo: ["/opt/backup"]
 EOF
 echo "--- Starting Elasticsearch"
  systemctl enable elasticsearch.service > /dev/null 2>&1
  systemctl start elasticsearch.service > /dev/null 2>&1
 #  systemctl status elasticsearch.service
-
-
 
 
 echo "--- Adding TheHive and Cortex repository"
@@ -65,13 +67,13 @@ echo 'deb https://dl.bintray.com/cert-bdf/debian any main' |  tee -a /etc/apt/so
 # Cortex
 ##  Install Cortex
 echo "--- Installing Cortex" 
- apt-get install -y  cortex > /dev/null 2>&1
+apt-get install -y  cortex > /dev/null 2>&1
 sleep 20
-# TheHive
-## Install TheHive
 echo "--- Installing TheHive"
- apt-get install -y  thehive > /dev/null 2>&1
+apt-get install -y  thehive > /dev/null 2>&1
+
 sleep 20 
+
 # Cortex-Analyzers
 echo "--- Installing Cortex-Analyzers"
  apt-get install -y  git > /dev/null 2>&1 
@@ -81,3 +83,4 @@ echo "--- Installing Cortex-Analyzers"
  cd /opt/Cortex-Analyzers/analyzers && pip install $(sort -u */requirements.txt) && pip3 install $(sort -u */requirements.txt) >  /dev/null 2>&1
  pip install thehive4py > /dev/null 2>&1 
  pip install cortex4py > /dev/null 2>&1
+
