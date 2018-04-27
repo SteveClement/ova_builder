@@ -35,5 +35,3 @@ cp -f /home/thehive/thehive-application.conf /etc/thehive/application.conf
 echo "--- Restarting  TheHive" 
 systemctl enable thehive > /dev/null 2>&1
 service thehive restart > /dev/null 2>&1
-#systemctl enable thehive 
-#service thehive restart

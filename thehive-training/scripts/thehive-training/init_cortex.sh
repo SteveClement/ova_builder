@@ -1,6 +1,6 @@
 #! /usr/bin/env bash 
 
-CORTEX_URL="http://127.0.0.1:9999"
+CORTEX_URL="http://127.0.0.1:9001"
 
 set -e
 LOG_FILE=$(mktemp)
@@ -15,12 +15,16 @@ log() {
 }
 
 ok() {
-    echo "${GREEN}OK${NC}" >&2
+    # echo "${GREEN}OK${NC}" >&2
+    echo "OK" >&2
 }
 
 ko() {
-    echo "${RED}KO${NC}" >&2
+    # echo "${RED}KO${NC}" >&2
+    echo "KO" >&2
 }
+
+#SERVICE=$(service --status-all | grep cortex)
 
 
 check() {
@@ -77,7 +81,7 @@ create_training_org() {
 
 create_training_thehive() {
     echo "--- Creating thehive user"
-    check 201 -u admin:thehive1234 "$CORTEX_URL/api/user" -H 'Content-Type: application/json' -d '
+    check 201 -u admin:thehive1234 "$CORTEX_URL/api/user" -H 'Content-Type: application/json'  -d '
         {
           "login" : "thehive",
           "name" : "thehive",
@@ -92,6 +96,8 @@ create_training_thehive() {
 }
 
 
+
+
 update_thehive_configuration() {
     echo "--- Creating thehive api key"
     key=$(curl -s -u admin:thehive1234 "$CORTEX_URL/api/user/thehive/key/renew" -d '')
@@ -99,10 +105,11 @@ update_thehive_configuration() {
     check 200 "$CORTEX_URL/api/user/thehive" -H 'Content-Type: application/json' \
         -H "Authorization: Bearer $key"
     echo "--- Updating thehive configuration with Cortex API key"
-    sudo sed  -i'.bak' -E "s/^( *key =).*/\1\"$key\"/" /etc/thehive/application.conf && ok
+    sudo sed  -i'.bak' -E "s|^( *key =).*|\1\"$key\"|" /etc/thehive/application.conf && ok
     [ -f /etc/thehive/application.conf.bak ] &&  sudo rm  /etc/thehive/application.conf.bak
-    echo "--- Restarting thehive"
-    sudo service thehive restart && ok
+    echo "--- Securing Cortex auth method"
+    sudo sed  -i'.bak' -E "s|^( *auth.method.basic.*)|#\1|" /etc/cortex/application.conf && ok
+    [ -f /etc/cortex/application.conf.bak ] &&  sudo rm  /etc/cortex/application.conf.bak
 }
 
 activate_analyzer() {
@@ -122,20 +129,29 @@ activate_analyzer() {
         ok
     else
         ko
-    fi  
+    fi
+
     }
 
+restart_services() {
+    echo "--- Restarting thehive"
+    sudo service thehive restart && ok
+    echo "--- Restarting Cortex"
+    sudo service cortex restart && ok
+}
 
-
+check_service
 create_index
 create_superadmin
 create_training_org
 create_training_thehive
 update_thehive_configuration
 activate_analyzer Abuse_Finder_2_0 
-activate_analyzer Bluecoat_Categorization_1_0
 activate_analyzer File_Info_2_0
 activate_analyzer Msg_Parser_2_0
 activate_analyzer MaxMind_GeoIP_3_0
+restart_services
+
+
 
 

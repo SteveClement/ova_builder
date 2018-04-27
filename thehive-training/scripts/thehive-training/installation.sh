@@ -76,11 +76,16 @@ sleep 20
 
 # Cortex-Analyzers
 echo "--- Installing Cortex-Analyzers"
- apt-get install -y  git > /dev/null 2>&1 
- cd /opt && git clone https://github.com/CERT-BDF/Cortex-Analyzers.git > /dev/null 2>&1
- apt-get install -y python-pip python2.7-dev python3-pip ssdeep libfuzzy-dev libfuzzy2 libimage-exiftool-perl libmagic1 build-essential libssl-dev >  /dev/null 2>&1
- pip install -U pip > /dev/null 2>&1
- cd /opt/Cortex-Analyzers/analyzers && pip install $(sort -u */requirements.txt) && pip3 install $(sort -u */requirements.txt) >  /dev/null 2>&1
- pip install thehive4py > /dev/null 2>&1 
- pip install cortex4py > /dev/null 2>&1
+apt-get install -y  git > /dev/null 2>&1 
+cd /opt && git clone https://github.com/CERT-BDF/Cortex-Analyzers.git > /dev/null 2>&1
+apt-get install -y python-pip python2.7-dev python3-pip ssdeep libfuzzy-dev libfuzzy2 libimage-exiftool-perl libmagic1 build-essential libssl-dev >  /dev/null 2>&1
+/usr/bin/python2 -m pip install -U pip > /dev/null 2>&1
+# pip3 install -U pip > /dev/null 2>&1
+# cd /opt/Cortex-Analyzers/analyzers && pip install $(sort -u */requirements.txt) && pip3 install $(sort -u */requirements.txt) >  /dev/null 2>&1
+cd /opt && for I in Cortex-Analyzers/analyzers/*/requirements.txt; do sudo -H /usr/bin/python2 -m pip install -r $I; done && \
+for I in Cortex-Analyzers/analyzers/*/requirements.txt; do sudo -H /usr/bin/python3 -m pip install -r $I || true; done
+pip install thehive4py > /dev/null 2>&1
+pip3 install thehive4py > /dev/null 2>&1
+pip install cortex4py > /dev/null 2>&1
+pip3 install cortex4py > /dev/null 2>&1
 

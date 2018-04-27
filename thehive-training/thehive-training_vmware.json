@@ -13,7 +13,7 @@
     "iso_md5": "6a7f31eb125a0b2908cf2333d7777c82",
     "vm_name": "thehive-training",
     "vm_description": "TheHive training Virtual Machine",
-    "vm_version": "3.0.7",
+    "vm_version": "3.0.9",
     "ovftool_path": "ovftool"
   },
   "builders": [{
