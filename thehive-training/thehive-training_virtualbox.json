@@ -1,15 +1,19 @@
 {
   "variables": {
-    "core": "2",
-    "memory": "4096",
-    "disk_size": "20000",
-    "ssh_port": "22",
-    "ssh_wait_timeout": "10000s",
-    "iso_url": "http://releases.ubuntu.com/xenial/ubuntu-16.04.3-server-amd64.iso",
-    "iso_md5": "10fcd20619dce11fe094e960c85ba4a9",
+    "builder_name": "thehive-training",
+    "guest_os_type":"ubuntu-64",
+    "vm_core": "2",
+    "vm_memory": "4096",
+    "vm_disk_size": "20000",
+    "vm_ssh_port": "22",
+    "vm_ssh_username":"thehive",
+    "vm_ssh_password":"thehive1234",
+    "vm_ssh_wait_timeout": "1200s",
+    "iso_url": "http://releases.ubuntu.com/16.04.4/ubuntu-16.04.4-server-amd64.iso",
+    "iso_md5": "6a7f31eb125a0b2908cf2333d7777c82",
     "vm_name": "thehive-training",
     "vm_description": "TheHive training Virtual Machine",
-    "vm_version": "3.0.1"
+    "vm_version": "3.0.9"
   },
   "builders": [{
     "name": "thehive",
@@ -24,8 +28,8 @@
     "http_directory": "http",
     "disk_size": "{{user `disk_size`}}",
     "hard_drive_interface": "sata",
-    "ssh_username": "thehive",
-    "ssh_password": "thehive1234",
+    "ssh_username": "{{user `vm_ssh_username`}}",
+    "ssh_password": "{{user `vm_ssh_password`}}",
     "ssh_wait_timeout": "1200s",
     "shutdown_command": "echo 'Shutting down thehive' | sudo -S shutdown -P now",
     "export_opts":
@@ -57,7 +61,7 @@
         " netcfg/get_hostname=thehive-training<wait>",
         " grub-installer/bootdev=/dev/sda<wait>",
         " noapic<wait>",
-        " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ubuntu1604/preseed.cfg",
+        " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/thehive-training/preseed.cfg",
         " -- <wait>",
         "<enter><wait>"
       ],
@@ -68,40 +72,50 @@
     ]
   }],
     "provisioners": [
-	{
-    		"type": "shell",
-    		"execute_command": "echo 'thehive1234' | {{.Vars}} sudo -S -E bash '{{.Path}}'",
-    		"script": "scripts/thehive-training/user.sh"
-  	},
-	{
-    		"type": "shell",
-    		"execute_command": "echo | {{.Vars}} sudo -S -E bash '{{.Path}}'",
-    		"script": "scripts/thehive-training/interfaces.sh"
-  	},
-	{
-    		"type": "shell",
-    		"execute_command": "{{.Vars}} sudo -S -E bash '{{.Path}}'",
-    		"script": "scripts/thehive-training/installation.sh"
-  	},
-	{
-	        "destination": "/tmp/thehive_training-application.conf",
-	        "source": "conffiles/thehive-training/thehive_training-application.conf",
-	        "type": "file"
-	},
-	{
-	        "destination": "/tmp/cortex_training-application.conf",
-	        "source": "conffiles/thehive-training/cortex_training-application.conf",
-	        "type": "file"
-	},
-	{
-    		"type": "shell",
-    		"execute_command": "{{.Vars}} sudo -S -E bash '{{.Path}}'",
-    		"script": "scripts/thehive-training/configuration.sh"
-  	},
-	{
-		"type": "shell",
-		"execute_command":"{{.Vars}} sudo -S -E bash '{{.Path}}'",
-		"script":"scripts/thehive-training/clean.sh"
-	}
+    {
+            "type": "shell",
+            "execute_command": "echo {{user `vm_ssh_password`}} | {{.Vars}} sudo -S -E bash '{{.Path}}'",
+            "script": "scripts/{{user `builder_name`}}/user.sh"
+    },
+    {
+            "type": "shell",
+            "execute_command": "echo | {{.Vars}} sudo -S -E bash '{{.Path}}'",
+            "script": "scripts/{{user `builder_name`}}/interfaces.sh"
+    },
+    {
+            "type": "shell",
+            "execute_command": "{{.Vars}} sudo -S -E bash '{{.Path}}'",
+            "script": "scripts/{{user `builder_name`}}/installation.sh"
+    },
+    {
+            "destination": "/tmp/thehive_training-application.conf",
+            "source": "conffiles/{{user `builder_name`}}/thehive_training-application.conf",
+            "type": "file"
+    },
+    {
+            "destination": "/tmp/cortex_training-application.conf",
+            "source": "conffiles/{{user `builder_name`}}/cortex_training-application.conf",
+            "type": "file"
+    },
+    {
+            "type": "shell",
+            "execute_command": "{{.Vars}} sudo -S -E bash '{{.Path}}'",
+            "script": "scripts/{{user `builder_name`}}/configuration.sh"
+    },
+    {
+            "type": "shell",
+            "execute_command": "{{.Vars}} sudo -S -E bash '{{.Path}}'",
+            "script": "scripts/{{user `builder_name`}}/init_cortex.sh"
+    },
+    {
+            "destination": "/tmp/issue",
+            "source": "conffiles/{{user `builder_name`}}/issue",
+            "type": "file"
+    },
+    {
+        "type": "shell",
+        "execute_command":"{{.Vars}} sudo -S -E bash '{{.Path}}'",
+        "script":"scripts/{{user `builder_name`}}/clean.sh"
+    }
     ]
 }

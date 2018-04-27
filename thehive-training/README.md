@@ -39,10 +39,10 @@
 
 ```
 
-- `conffiles/thehive-training` contains cortex and thehive application.conf files ready
+- `conffiles/thehive-training` contains Cortex and Thehive application.conf files ready
   to setup the training VM
-- `http/ubuntu1604/pressed.cfg` if ready to install Ubunutu server xenial 64bits (16.04)
-- `scripts/thehive-training` contains all bootstrap scripts need to install and setup
+- `http/thehive-training/preseed.cfg` Ubuntu server Xenial 64bits (16.04) preseed file 
+- `scripts/thehive-training` contains all bootstrap scripts needed to install and setup
   thehive, cortex and Cortex-Analyzers 
 
 ## Run
