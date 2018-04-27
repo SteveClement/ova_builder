@@ -11,7 +11,6 @@
 
 - packer 
 
-
 ## Tree
 
 ```
@@ -24,10 +23,11 @@
 │       └── thehive_training-application.conf
 ├── http
 │   └── thehive-training
-│       └── preseed.cfg
+│       └── preseed.cfg
+├── private
+│   └── thehive-training_vmware.json
 ├── scripts
 │   └── thehive-training
-│       ├── bootstrap.sh
 │       ├── clean.sh
 │       ├── configuration.sh
 │       ├── init_cortex.sh
@@ -36,7 +36,6 @@
 │       └── user.sh
 ├── thehive-training_virtualbox.json
 └── thehive-training_vmware.json
-
 ```
 
 - `conffiles/thehive-training` contains Cortex and Thehive application.conf files ready
@@ -60,7 +59,6 @@ packer build thehive-training_vmware.json
 ```
 
 - Build OVA file with VMware Fusion
-
 
 ```
 packer build thehive-training_vmware.json
