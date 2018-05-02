@@ -24,8 +24,6 @@
 ├── http
 │   └── thehive-training
 │       └── preseed.cfg
-├── private
-│   └── thehive-training_vmware.json
 ├── scripts
 │   └── thehive-training
 │       ├── clean.sh
