@@ -1,4 +1,4 @@
-#! /usr/bin/env bash 
+#! /usr/bin/env bash
 
 CORTEX_URL="http://127.0.0.1:9001"
 
@@ -45,13 +45,14 @@ check() {
 
 # Check service is alive
 check_service() {
-    echo "--- Checking if Cortex service is running" 
+    echo "--- Checking if Cortex service is running"
+    sleep 10
     check 200 "$CORTEX_URL/index.html"
 }
 
 create_index() {
     # Create the index
-    echo "--- Creating Cortex index" 
+    echo "--- Creating Cortex index"
     check 204 -XPOST "$CORTEX_URL/api/maintenance/migrate"
 }
 
@@ -101,7 +102,7 @@ create_training_thehive() {
 update_thehive_configuration() {
     echo "--- Creating thehive api key"
     key=$(curl -s -u admin:thehive1234 "$CORTEX_URL/api/user/thehive/key/renew" -d '')
-    
+
     check 200 "$CORTEX_URL/api/user/thehive" -H 'Content-Type: application/json' \
         -H "Authorization: Bearer $key"
     echo "--- Updating thehive configuration with Cortex API key"
@@ -123,7 +124,7 @@ activate_analyzer() {
         }'
     status_code=$(curl -s -u thehive:thehive1234 "$CORTEX_URL/api/organization/analyzer/$1" \
         -H 'Content-Type: application/json' -d "$data" -o /dev/stderr -w '%{http_code}')
-    
+
     if [ "${status_code}" = "201" ]
     then
         ok
@@ -146,12 +147,8 @@ create_superadmin
 create_training_org
 create_training_thehive
 update_thehive_configuration
-activate_analyzer Abuse_Finder_2_0 
+activate_analyzer Abuse_Finder_2_0
 activate_analyzer File_Info_2_0
 activate_analyzer Msg_Parser_2_0
 activate_analyzer MaxMind_GeoIP_3_0
 restart_services
-
-
-
-
