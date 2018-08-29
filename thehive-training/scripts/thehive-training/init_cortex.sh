@@ -148,7 +148,10 @@ create_training_org
 create_training_thehive
 update_thehive_configuration
 activate_analyzer Abuse_Finder_2_0
-activate_analyzer File_Info_2_0
-activate_analyzer Msg_Parser_2_0
+activate_analyzer FileInfo_3_0
+activate_analyzer EmlParser_1_0
 activate_analyzer MaxMind_GeoIP_3_0
+activate_analyzer UnshortenLink_1_0
+activate_analyzer Fortiguard_URLCategory_2_0
+activate_analyzer CyberCrime-Tracker_1_0
 restart_services

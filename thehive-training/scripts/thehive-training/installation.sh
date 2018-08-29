@@ -84,3 +84,4 @@ pip install thehive4py > /dev/null 2>&1
 pip3 install thehive4py > /dev/null 2>&1
 pip install cortex4py > /dev/null 2>&1
 pip3 install cortex4py > /dev/null 2>&1
+chown -R cortex:cortex /opt/Cortex-Analyzers

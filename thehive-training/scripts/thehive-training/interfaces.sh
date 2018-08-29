@@ -5,7 +5,9 @@ sed  -r  's/^(GRUB_CMDLINE_LINUX=).*/\1\"net\.ifnames=0\ biosdevname=0\"/' /etc/
 
 
 # install ifupdown since ubuntu 18.04
-sudo apt-get install ifupdown > /dev/null 2>&1
+sudo apt-get update
+sudo apt-get install -y ifupdown
+
 
 # enable eth0
 echo "--- Configuring eth0"
