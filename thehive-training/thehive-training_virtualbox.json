@@ -32,7 +32,7 @@
     "ssh_password": "{{user `vm_ssh_password`}}",
     "ssh_wait_timeout": "1500s",
     "shutdown_command": "echo 'Shutting down thehive' ; sudo -S shutdown -P now",
-    "shutdown_timeout": "10m"
+    "shutdown_timeout": "10m",
     "export_opts":
      [
      "--manifest",
