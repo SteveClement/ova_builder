@@ -30,7 +30,7 @@
     "hard_drive_interface": "sata",
     "ssh_username": "{{user `vm_ssh_username`}}",
     "ssh_password": "{{user `vm_ssh_password`}}",
-    "ssh_wait_timeout": "1200s",
+    "ssh_wait_timeout": "1500s",
     "shutdown_command": "echo 'Shutting down thehive' | sudo -S shutdown -P now",
     "export_opts":
      [
