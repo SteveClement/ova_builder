@@ -8,7 +8,7 @@
     "vm_ssh_port": "22",
     "vm_ssh_username":"thehive",
     "vm_ssh_password":"thehive1234",
-    "vm_ssh_wait_timeout": "1200s",
+    "vm_ssh_wait_timeout": "3600",
     "iso_url": "http://cdimage.ubuntu.com/releases/18.04/release/ubuntu-18.04.1-server-amd64.iso",
     "iso_md5": "e8264fa4c417216f4304079bd94f895e",
     "vm_name": "thehive-training",
@@ -30,7 +30,7 @@
     "hard_drive_interface": "sata",
     "ssh_username": "{{user `vm_ssh_username`}}",
     "ssh_password": "{{user `vm_ssh_password`}}",
-    "ssh_wait_timeout": "1500s",
+    "ssh_wait_timeout": "{{user `vm_ssh_wait_timeout`}}",
     "shutdown_command": "echo 'Shutting down thehive' ; sudo -S shutdown -P now",
     "shutdown_timeout": "10m",
     "export_opts":

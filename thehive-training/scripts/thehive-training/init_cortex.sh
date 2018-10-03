@@ -152,6 +152,6 @@ activate_analyzer FileInfo_3_0
 activate_analyzer EmlParser_1_0
 activate_analyzer MaxMind_GeoIP_3_0
 activate_analyzer UnshortenLink_1_0
-activate_analyzer Fortiguard_URLCategory_2_0
+activate_analyzer Fortiguard_URLCategory_2_1
 activate_analyzer CyberCrime-Tracker_1_0
 restart_services
