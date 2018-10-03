@@ -8,7 +8,7 @@
     "vm_ssh_port": "22",
     "vm_ssh_username":"thehive",
     "vm_ssh_password":"thehive1234",
-    "vm_ssh_wait_timeout": "3600",
+    "vm_ssh_wait_timeout": "3600s",
     "iso_url": "http://cdimage.ubuntu.com/releases/18.04/release/ubuntu-18.04.1-server-amd64.iso",
     "iso_md5": "e8264fa4c417216f4304079bd94f895e",
     "vm_name": "thehive-training",
