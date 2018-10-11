@@ -63,5 +63,3 @@ packer build thehive-training_vmware.json
 ```
 
 `thehive-training.ova` file is built. It is ready to be imported in VMware and Virtualbox.
-
-
