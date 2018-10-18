@@ -1,0 +1,1 @@
+../thehive-training/clean.sh
