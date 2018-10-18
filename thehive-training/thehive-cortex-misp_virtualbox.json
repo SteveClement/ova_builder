@@ -1,6 +1,6 @@
 {
   "variables": {
-    "builder_name": "thehive-training",
+    "builder_name": "thehive-cortex-misp-training",
     "guest_os_type":"ubuntu-64",
     "vm_core": "2",
     "vm_memory": "4096",
@@ -61,7 +61,7 @@
         " netcfg/get_domain=vm<wait>",
         " netcfg/get_hostname=thehive-training<wait>",
         " grub-installer/bootdev=/dev/sda<wait>",
-        " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/thehive-training/preseed.cfg",
+        " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `builder_name`}}/preseed.cfg",
         " -- <wait>",
         "<enter><wait>"
       ],
