@@ -1,16 +1,18 @@
 #! /usr/bin/env bash
 
+INSTALL_USER = thehive
+
 # Cortex
 
 ## Configure Cortex
 echo "--- Configuring  Cortex"
-cp -f /tmp/cortex_training-application.conf /home/thehive/
+cp -f /tmp/cortex_training-application.conf /home/$INSTALL_USER/
 echo "--- Generating random"                        
 random=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 64 | head -n 1)                                
 echo "--- Changing secret"                          
-sed  -r  "s/^#(play.http.secret.key=).*/\1\"$random\"/" /home/thehive/cortex_training-application.conf | tee /home/thehive/cortex-application.conf > /dev/null 2>&1 
+sed  -r  "s/^#(play.http.secret.key=).*/\1\"$random\"/" /home/$INSTALL_USER/cortex_training-application.conf | tee /home/$INSTALL_USER/cortex-application.conf > /dev/null 2>&1 
 sleep 10
-cp -f /home/thehive/cortex-application.conf /etc/cortex/application.conf
+cp -f /home/$INSTALL_USER/cortex-application.conf /etc/cortex/application.conf
 
 ## Restart Cortex service
 echo "--- Restarting Cortex" 
@@ -21,15 +23,15 @@ service cortex restart > /dev/null 2>&1
 # TheHive
 ## Configure TheHive
 echo "--- Configuring TheHive" 
-cp -f /tmp/thehive_training-application.conf /home/thehive/
+cp -f /tmp/thehive_training-application.conf /home/$INSTALL_USER/
 
 
 echo "--- Generating random"  
 random=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 64 | head -n 1)
 echo "--- Changing secret"                          
-sed  -r  "s/^#(play.http.secret.key=).*/\1\"$random\"/" /home/thehive/thehive_training-application.conf | tee /home/thehive/thehive-application.conf > /dev/null 2>&1
+sed  -r  "s/^#(play.http.secret.key=).*/\1\"$random\"/" /home/$INSTALL_USER/thehive_training-application.conf | tee /home/$INSTALL_USER/thehive-application.conf > /dev/null 2>&1
 sleep 10
-cp -f /home/thehive/thehive-application.conf /etc/thehive/application.conf
+cp -f /home/$INSTALL_USER/thehive-application.conf /etc/thehive/application.conf
 
 ## Restart Thehive service
 echo "--- Restarting  TheHive" 

@@ -6,8 +6,8 @@
     "vm_memory": "4096",
     "vm_disk_size": "20000",
     "vm_ssh_port": "22",
-    "vm_ssh_username":"thehive",
-    "vm_ssh_password":"thehive1234",
+    "vm_ssh_username":"misp",
+    "vm_ssh_password":"Password1234",
     "vm_ssh_wait_timeout": "3600s",
     "iso_url": "http://cdimage.ubuntu.com/releases/18.04/release/ubuntu-18.04.1-server-amd64.iso",
     "iso_md5": "e8264fa4c417216f4304079bd94f895e",
@@ -101,26 +101,26 @@
                 "type": "shell",
                 "execute_command": "{{.Vars}} sudo -S -E bash '{{.Path}}'",
                 "script": "scripts/{{user `builder_name`}}/configuration.sh"
-      },
-{
-        "type": "shell",
-        "execute_command": "{{.Vars}} sudo -S -E bash '{{.Path}}'",
-        "script": "scripts/{{user `builder_name`}}/init_cortex.sh"
-},
-{
-  "type": "shell",
-  "execute_command": "{{.Vars}} sudo -S -E bash '{{.Path}}'",
-  "script": "scripts/{{user `builder_name`}}/misp.sh"
-},
-{
-        "destination": "/tmp/issue",
-        "source": "conffiles/{{user `builder_name`}}/issue",
-        "type": "file"
-},
-{
+    },
+    {
             "type": "shell",
-            "execute_command":"{{.Vars}} sudo -S -E bash '{{.Path}}'",
-            "script":"scripts/{{user `builder_name`}}/clean.sh"
+            "execute_command": "{{.Vars}} sudo -S -E bash '{{.Path}}'",
+            "script": "scripts/{{user `builder_name`}}/init_cortex.sh"
+    },
+    {
+      "type": "shell",
+      "execute_command": "{{.Vars}} sudo -S -E bash '{{.Path}}'",
+      "script": "scripts/{{user `builder_name`}}/misp.sh"
+    },
+    {
+            "destination": "/tmp/issue",
+            "source": "conffiles/{{user `builder_name`}}/issue",
+            "type": "file"
+    },
+    {
+                "type": "shell",
+                "execute_command":"{{.Vars}} sudo -S -E bash '{{.Path}}'",
+                "script":"scripts/{{user `builder_name`}}/clean.sh"
     }
     ]
 }
