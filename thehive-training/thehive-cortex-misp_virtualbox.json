@@ -8,15 +8,15 @@
     "vm_ssh_port": "22",
     "vm_ssh_username":"misp",
     "vm_ssh_password":"Password1234",
-    "vm_ssh_wait_timeout": "3600s",
+    "vm_ssh_wait_timeout": "20m",
     "iso_url": "http://cdimage.ubuntu.com/releases/18.04/release/ubuntu-18.04.1-server-amd64.iso",
     "iso_md5": "e8264fa4c417216f4304079bd94f895e",
-    "vm_name": "thehive-training",
-    "vm_description": "TheHive training Virtual Machine",
-    "vm_version": "3.1.2"
+    "vm_name": "thehive-misp",
+    "vm_description": "Virtual Machine with TheHive, Cortex and MISP",
+    "vm_version": "3.1.0"
   },
   "builders": [{
-    "name": "thehive",
+    "name": "thehive-misp",
     "type": "virtualbox-iso",
     "format":"ova",
     "guest_os_type": "Ubuntu_64",
@@ -26,11 +26,14 @@
     "vm_name": "{{user `vm_name`}}",
     "headless": true,
     "http_directory": "http",
+    "http_port_min" : 9901,
+    "http_port_max" : 9911,
     "disk_size": "{{user `vm_disk_size`}}",
     "hard_drive_interface": "sata",
     "ssh_username": "{{user `vm_ssh_username`}}",
     "ssh_password": "{{user `vm_ssh_password`}}",
     "ssh_wait_timeout": "{{user `vm_ssh_wait_timeout`}}",
+    "ssh_pty" : "true",
     "shutdown_command": "echo 'Shutting down thehive' ; sudo -S shutdown -P now",
     "shutdown_timeout": "10m",
     "export_opts":
@@ -59,7 +62,7 @@
         " keyboard-configuration/variant=USA<wait>",
         " locale=en_US<wait>",
         " netcfg/get_domain=vm<wait>",
-        " netcfg/get_hostname=thehive-training<wait>",
+        " netcfg/get_hostname=thehive-misp<wait>",
         " grub-installer/bootdev=/dev/sda<wait>",
         " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `builder_name`}}/preseed.cfg",
         " -- <wait>",
@@ -72,7 +75,7 @@
     ]
   }],
     "provisioners": [
-	{
+  {
                 "type": "shell",
                 "execute_command": "echo {{user `vm_ssh_password`}} | {{.Vars}} sudo -S -E bash '{{.Path}}'",
                 "script": "scripts/{{user `builder_name`}}/user.sh"
@@ -101,26 +104,28 @@
                 "type": "shell",
                 "execute_command": "{{.Vars}} sudo -S -E bash '{{.Path}}'",
                 "script": "scripts/{{user `builder_name`}}/configuration.sh"
-    },
-    {
+      },
+{
+        "type": "shell",
+        "execute_command": "{{.Vars}} sudo -S -E bash '{{.Path}}'",
+        "script": "scripts/{{user `builder_name`}}/init_cortex.sh"
+},
+{
+  "type": "shell",
+  "execute_command": "echo '{{user `vm_ssh_password`}}' | {{ .Vars }} sudo -E -S sh '{{ .Path }}'",
+  "script": "scripts/{{user `builder_name`}}/misp-bootstrap.sh",
+  "pause_before": "10s"
+},
+{
+        "destination": "/tmp/issue",
+        "source": "conffiles/{{user `builder_name`}}/issue",
+        "type": "file"
+},
+{
             "type": "shell",
-            "execute_command": "{{.Vars}} sudo -S -E bash '{{.Path}}'",
-            "script": "scripts/{{user `builder_name`}}/init_cortex.sh"
-    },
-    {
-      "type": "shell",
-      "execute_command": "{{.Vars}} sudo -S -E bash '{{.Path}}'",
-      "script": "scripts/{{user `builder_name`}}/misp.sh"
-    },
-    {
-            "destination": "/tmp/issue",
-            "source": "conffiles/{{user `builder_name`}}/issue",
-            "type": "file"
-    },
-    {
-                "type": "shell",
-                "execute_command":"{{.Vars}} sudo -S -E bash '{{.Path}}'",
-                "script":"scripts/{{user `builder_name`}}/clean.sh"
+            "execute_command":"{{.Vars}} sudo -S -E bash '{{.Path}}'",
+            "script":"scripts/{{user `builder_name`}}/clean.sh"
     }
     ]
 }
+

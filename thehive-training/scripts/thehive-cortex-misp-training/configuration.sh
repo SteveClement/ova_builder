@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 
-INSTALL_USER = misp
+INSTALL_USER = 'misp'
 
 # Cortex
 
