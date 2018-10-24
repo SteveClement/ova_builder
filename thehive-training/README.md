@@ -58,6 +58,7 @@
 - `scripts/thehive-training` contains all bootstrap scripts needed to install and setup
   thehive, cortex and Cortex-Analyzers
 
+
 ## Run
 
 #### Build TheHive training VM 
