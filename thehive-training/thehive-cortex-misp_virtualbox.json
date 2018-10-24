@@ -112,6 +112,11 @@
 },
 {
   "type": "shell",
+  "execute_command": "{{.Vars}} sudo -S -E bash '{{.Path}}'",
+  "script": "scripts/{{user `builder_name`}}/init_thehive.sh"
+},
+{
+  "type": "shell",
   "execute_command": "echo '{{user `vm_ssh_password`}}' | {{ .Vars }} sudo -E -S sh '{{ .Path }}'",
   "script": "scripts/{{user `builder_name`}}/misp-bootstrap.sh",
   "pause_before": "10s"
