@@ -2,11 +2,11 @@
 
 ## Requirements
 
-### Virtualization solution
+#### Virtualization solution
 
 - Virtualbox
 
-### Additional softwares
+#### Additional softwares
 
 - packer (https://www.packer.io)
 
@@ -54,15 +54,15 @@
 
 - `conffiles/thehive-training` contains Cortex and Thehive application.conf files ready
   to setup the training VM
-- `http/thehive-training/preseed.cfg` Ubuntu server Xenial 64bits (16.04) preseed file 
+- `http/thehive-training/preseed.cfg` Ubuntu server 64bits (18.04.1) preseed file
 - `scripts/thehive-training` contains all bootstrap scripts needed to install and setup
-  thehive, cortex and Cortex-Analyzers 
+  thehive, cortex and Cortex-Analyzers
 
 ## Run
 
-### Build TheHive training VM 
+#### Build TheHive training VM 
 
-- Validate recipe  json file
+- Validate recipe json file
 
 ```
 packer validate thehive-training_virtualbox.json
@@ -74,11 +74,9 @@ packer validate thehive-training_virtualbox.json
 packer build thehive-training_virtualbox.json
 ```
 
-### Output
-
 `thehive-training.ova` file is built and stored in a new folder called `output-thehive`. It is ready to be imported in VMware or Virtualbox.
 
-### Build a VM with TheHive, Cortex and MISP
+#### Build a VM with TheHive, Cortex and MISP
 
 - Validate recipe json file
 
@@ -91,7 +89,5 @@ packer validate thehive-cortex-misp_virtualbox.json
 ```
 packer build thehive-cortex-misp_virtualbox.json
 ```
-
-### Output
 
 `thehive-misp.ova` file is built and stored in a new folder called `output-thehive-misp`. It is ready to be imported in VMware or Virtualbox.
