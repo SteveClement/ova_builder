@@ -1,7 +1,7 @@
 #! /usr/bin/env bash
 
-echo "--- Creating misp user"
-useradd -U -G sudo -m -s /bin/bash -p Password1234 misp
+echo "--- Creating thehive user"
+useradd -U -G sudo -m -s /bin/bash -p thehive1234 thehive
 
 echo "--- Configuring sudo "
 echo %thehive ALL=NOPASSWD:ALL > /etc/sudoers.d/thehive

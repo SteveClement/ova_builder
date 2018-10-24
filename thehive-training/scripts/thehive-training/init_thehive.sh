@@ -57,7 +57,7 @@ create_index() {
 }
 
 create_admin() {
-    echo "--- Creating Cortex superadmin user"
+    echo "--- Creating TheHive admin user"
     check 201 "$THEHIVE_URL/api/user" -H 'Content-Type: application/json' -d '
             {
               "login" : "admin",
@@ -86,7 +86,7 @@ update_thehive_configuration() {
     echo "--- Creating thehive api key"
     key=$(curl -s -u admin:thehive1234 "$THEHIVE_URL/api/user/admin/key/renew" -d '')
 
-    check 200 "$THEHIVE_URL/api/user/thehive" -H 'Content-Type: application/json' \
+    check 200 "$THEHIVE_URL/api/user/admin" -H 'Content-Type: application/json' \
         -H "Authorization: Bearer $key"
 
     echo "--- Securing TheHive auth method"
@@ -98,7 +98,7 @@ update_thehive_configuration() {
 restart_services() {
     echo "--- Restarting thehive"
     sudo service thehive restart && ok
-
+} 
 check_service
 create_index
 create_admin
