@@ -109,7 +109,7 @@ update_thehive_configuration() {
     sudo sed  -i'.bak' -E "s|^( *key =).*|\1\"$key\"|" /etc/thehive/application.conf && ok
     [ -f /etc/thehive/application.conf.bak ] &&  sudo rm  /etc/thehive/application.conf.bak
     echo "--- Securing Cortex auth method"
-    sudo sed  -i'.bak' -E "s|^( *auth.method.basic.*)|#\1|" /etc/cortex/application.conf && ok
+    sudo sed  -i'.bak' -E "s|^( *method.basic.*)|#\1|" /etc/cortex/application.conf && ok
     [ -f /etc/cortex/application.conf.bak ] &&  sudo rm  /etc/cortex/application.conf.bak
 }
 
