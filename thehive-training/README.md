@@ -2,14 +2,13 @@
 
 ## Requirements
 
-#### Virtualization solution
+### Virtualization solution
 
 - Virtualbox
-- VMWare Fusion with ovftool (https://www.vmware.com/support/developer/ovf/)
 
-#### Additional softwares
+### Additional softwares
 
-- packer 
+- packer (https://www.packer.io)
 
 ## Tree
 
@@ -17,21 +16,38 @@
 .
 ├── README.md
 ├── conffiles
+│   ├── thehive-cortex-misp-training
+│   │   ├── cortex_training-application.conf -> ../thehive-training/cortex_training-application.conf
+│   │   ├── issue
+│   │   └── thehive_training-application.conf -> ../thehive-training/thehive_training-application.conf
 │   └── thehive-training
 │       ├── cortex_training-application.conf
 │       ├── issue
 │       └── thehive_training-application.conf
 ├── http
+│   ├── thehive-cortex-misp-training
+│   │   └── preseed.cfg
 │   └── thehive-training
 │       └── preseed.cfg
 ├── scripts
+│   ├── thehive-cortex-misp-training
+│   │   ├── clean.sh -> ../thehive-training/clean.sh
+│   │   ├── configuration.sh
+│   │   ├── init_cortex.sh -> ../thehive-training/init_cortex.sh
+│   │   ├── init_thehive.sh -> ../thehive-training/init_thehive.sh
+│   │   ├── installation.sh -> ../thehive-training/installation.sh
+│   │   ├── interfaces.sh -> ../thehive-training/interfaces.sh
+│   │   ├── misp-bootstrap.sh
+│   │   └── user.sh
 │   └── thehive-training
 │       ├── clean.sh
 │       ├── configuration.sh
 │       ├── init_cortex.sh
+│       ├── init_thehive.sh
 │       ├── installation.sh
 │       ├── interfaces.sh
 │       └── user.sh
+├── thehive-cortex-misp_virtualbox.json
 ├── thehive-training_virtualbox.json
 └── thehive-training_vmware.json
 ```
@@ -44,22 +60,38 @@
 
 ## Run
 
+### Build TheHive training VM 
+
 - Validate recipe  json file
 
 ```
-packer validate thehive-training_vmware.json
+packer validate thehive-training_virtualbox.json
 ```
 
 - Build OVA file with virtualbox
 
 ```
-packer build thehive-training_vmware.json
+packer build thehive-training_virtualbox.json
 ```
 
-- Build OVA file with VMware Fusion
+### Output
+
+`thehive-training.ova` file is built and stored in a new folder called `output-thehive`. It is ready to be imported in VMware or Virtualbox.
+
+### Build a VM with TheHive, Cortex and MISP
+
+- Validate recipe json file
 
 ```
-packer build thehive-training_vmware.json
+packer validate thehive-cortex-misp_virtualbox.json
 ```
 
-`thehive-training.ova` file is built. It is ready to be imported in VMware and Virtualbox.
+- Build OVA file with virtualbox
+
+```
+packer build thehive-cortex-misp_virtualbox.json
+```
+
+### Output
+
+`thehive-misp.ova` file is built and stored in a new folder called `output-thehive-misp`. It is ready to be imported in VMware or Virtualbox.
