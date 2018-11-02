@@ -44,16 +44,17 @@
 
 ## Run
 
-- Validate recipe  json file
+- Validate recipe json files
 
 ```
 packer validate thehive-training_vmware.json
+packer validate thehive-training_virtualbox.json
 ```
 
 - Build OVA file with virtualbox
 
 ```
-packer build thehive-training_vmware.json
+packer build thehive-training_virtualbox.json
 ```
 
 - Build OVA file with VMware Fusion
