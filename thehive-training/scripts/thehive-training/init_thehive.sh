@@ -89,6 +89,8 @@ update_thehive_configuration() {
     check 200 "$THEHIVE_URL/api/user/admin" -H 'Content-Type: application/json' \
         -H "Authorization: Bearer $key"
 
+    add_templates $key
+
     echo "--- Securing TheHive auth method"
     sudo sed  -i'.bak' -E "s|^( *method.basic.*)|#\1|" /etc/thehive/application.conf && ok
     [ -f /etc/thehive/application.conf.bak ] &&  sudo rm  /etc/thehive/application.conf.bak
@@ -102,6 +104,5 @@ restart_services() {
 check_service
 create_index
 create_admin
-add_templates
 update_thehive_configuration
 restart_services
