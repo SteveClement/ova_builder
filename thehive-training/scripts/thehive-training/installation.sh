@@ -20,9 +20,9 @@ echo debconf shared/accepted-oracle-license-v1-1 seen true |  debconf-set-select
 
 echo "--- Installing OpenJDK"
 
-sudo add-apt-repository ppa:openjdk-r/ppa > /dev/null 2>&1
+sudo add-apt-repository ppa:openjdk-r/ppa -y > /dev/null 2>&1
 sudo apt-get update > /dev/null 2>&1
-sudo apt-get install openjdk-8-jre-headless > /dev/null 2>&1
+sudo apt-get install -y openjdk-8-jre-headless > /dev/null 2>&1
 
 
 echo "--- Adding Elasticsearch repository"
