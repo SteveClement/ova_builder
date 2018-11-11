@@ -74,7 +74,7 @@ create_admin() {
 add_templates() {
     key=$1
     echo "--- Downloading report templates"
-    wget https://dl.bintray.com/cert-bdf/thehive/report-templates.zip -O /tmp/report-templates.zip
+    wget https://dl.bintray.com/thehive-project/thehive/report-templates.zip -O /tmp/report-templates.zip
     sleep 10
     [ -f /tmp/report-templates.zip ] && echo "--- templates downloaded"
     [ -f /tmp/report-templates.zip ] && \
