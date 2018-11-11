@@ -78,7 +78,7 @@ add_templates() {
     sleep 10
     [ -f /tmp/report-templates.zip ] && echo "--- templates downloaded"
     [ -f /tmp/report-templates.zip ] && \
-    check 100 "$THEHIVE_URL/api/connector/cortex/report/template/_import" -H 'Connection: keep-alive' \
+    check 200 "$THEHIVE_URL/api/connector/cortex/report/template/_import" -H 'Connection: keep-alive' \
     -F "templates=@/tmp/report-templates.zip" -H "Authorization: Bearer $key"
 }
 
