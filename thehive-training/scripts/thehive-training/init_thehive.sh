@@ -77,9 +77,9 @@ add_templates() {
     wget https://dl.bintray.com/cert-bdf/thehive/report-templates.zip -O /tmp/report-templates.zip
     sleep 10
     [ -f /tmp/report-templates.zip ] && echo "--- templates downloaded"
-  #[ -f /tmp/report-templates.zip ] && \
-  #  check 200 "$THEHIVE_URL/api/connector/cortex/report/template/_import" \
-  # -F "report-templates.zip=@/tmp/report-templates.zip" -H "Authorization: Bearer $key"
+    [ -f /tmp/report-templates.zip ] && \
+    check 100 "$THEHIVE_URL/api/connector/cortex/report/template/_import" -H 'Connection: keep-alive' \
+    -F "templates=@/tmp/report-templates.zip" -H "Authorization: Bearer $key"
 }
 
 update_thehive_configuration() {
