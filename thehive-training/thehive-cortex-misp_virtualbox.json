@@ -19,7 +19,7 @@
     "disk_size": "{{user `vm_disk_size`}}",
     "format":"ova",
     "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
-    "guest_os_type": "Ubuntu_64",
+    "guest_os_type": "{{user `guest_os_type`}}",
     "hard_drive_interface": "sata",
     "headless": true,
     "http_directory": "http",
@@ -85,64 +85,64 @@
     ]
   }],
 
-    "provisioners": [
-    {
-      "type": "shell",
-      "execute_command": "echo {{user `vm_ssh_password`}} | {{.Vars}} sudo -S -E bash '{{.Path}}'",
-      "script": "scripts/{{user `builder_name`}}/user.sh"
-    },
-    {
-      "type": "shell",
-      "execute_command": "echo | {{.Vars}} sudo -S -E bash '{{.Path}}'",
-      "script": "scripts/{{user `builder_name`}}/interfaces.sh"
-    },
-    {
-      "type": "shell",
-      "execute_command": "{{.Vars}} sudo -S -E bash '{{.Path}}'",
-      "script": "scripts/{{user `builder_name`}}/installation.sh"
-    },
-    {
-      "type": "file",
-      "source": "conffiles/{{user `builder_name`}}/thehive_training-application.conf",
-      "destination": "/tmp/thehive_training-application.conf"
-    },
-    {
-      "type": "file",
-      "source": "conffiles/{{user `builder_name`}}/cortex_training-application.conf",
-      "destination": "/tmp/cortex_training-application.conf"
-    },
-    {
-      "type": "shell",
-      "execute_command": "{{.Vars}} sudo -S -E bash '{{.Path}}'",
-      "script": "scripts/{{user `builder_name`}}/configuration.sh"
-    },
-    {
-      "type": "shell",
-      "execute_command": "{{.Vars}} sudo -S -E bash '{{.Path}}'",
-      "script": "scripts/{{user `builder_name`}}/init_cortex.sh"
-    },
-    {
-      "type": "shell",
-      "execute_command": "{{.Vars}} sudo -S -E bash '{{.Path}}'",
-      "script": "scripts/{{user `builder_name`}}/init_thehive.sh"
-    },
-    {
-      "type": "shell",
-      "execute_command": "echo '{{user `vm_ssh_password`}}' | {{ .Vars }} sudo -E -S sh '{{ .Path }}'",
-      "script": "scripts/{{user `builder_name`}}/misp-bootstrap.sh",
-      "pause_before": "10s"
-    },
-    {
-      "type": "file",
-      "source": "conffiles/{{user `builder_name`}}/issue",
-      "destination": "/tmp/issue"
-    },
-    {
-      "type": "shell",
-      "execute_command":"{{.Vars}} sudo -S -E bash '{{.Path}}'",
-      "script":"scripts/{{user `builder_name`}}/clean.sh"
-    }
-    ],
+  "provisioners": [
+  {
+    "type": "shell",
+    "execute_command": "echo {{user `vm_ssh_password`}} | {{.Vars}} sudo -S -E bash '{{.Path}}'",
+    "script": "scripts/{{user `builder_name`}}/user.sh"
+  },
+  {
+    "type": "shell",
+    "execute_command": "echo | {{.Vars}} sudo -S -E bash '{{.Path}}'",
+    "script": "scripts/{{user `builder_name`}}/interfaces.sh"
+  },
+  {
+    "type": "shell",
+    "execute_command": "{{.Vars}} sudo -S -E bash '{{.Path}}'",
+    "script": "scripts/{{user `builder_name`}}/installation.sh"
+  },
+  {
+    "type": "file",
+    "source": "conffiles/{{user `builder_name`}}/thehive_training-application.conf",
+    "destination": "/tmp/thehive_training-application.conf"
+  },
+  {
+    "type": "file",
+    "source": "conffiles/{{user `builder_name`}}/cortex_training-application.conf",
+    "destination": "/tmp/cortex_training-application.conf"
+  },
+  {
+    "type": "shell",
+    "execute_command": "{{.Vars}} sudo -S -E bash '{{.Path}}'",
+    "script": "scripts/{{user `builder_name`}}/configuration.sh"
+  },
+  {
+    "type": "shell",
+    "execute_command": "{{.Vars}} sudo -S -E bash '{{.Path}}'",
+    "script": "scripts/{{user `builder_name`}}/init_cortex.sh"
+  },
+  {
+    "type": "shell",
+    "execute_command": "{{.Vars}} sudo -S -E bash '{{.Path}}'",
+    "script": "scripts/{{user `builder_name`}}/init_thehive.sh"
+  },
+  {
+    "type": "shell",
+    "execute_command": "echo '{{user `vm_ssh_password`}}' | {{ .Vars }} sudo -E -S sh '{{ .Path }}'",
+    "script": "scripts/{{user `builder_name`}}/misp-bootstrap.sh",
+    "pause_before": "10s"
+  },
+  {
+    "type": "file",
+    "source": "conffiles/{{user `builder_name`}}/issue",
+    "destination": "/tmp/issue"
+  },
+  {
+    "type": "shell",
+    "execute_command":"{{.Vars}} sudo -S -E bash '{{.Path}}'",
+    "script":"scripts/{{user `builder_name`}}/clean.sh"
+  }
+  ],
   "post-processors": [
     {
         "keep_input_artifact": "false",
@@ -152,4 +152,3 @@
     }
   ]
 }
-
