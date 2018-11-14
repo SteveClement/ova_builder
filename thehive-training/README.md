@@ -83,13 +83,21 @@ packer build thehive-training_virtualbox.json
 - Validate recipe json file
 
 ```
-packer validate thehive-cortex-misp_virtualbox.json
+packer validate thehive-cortex-misp.json
 ```
 
-- Build OVA file with virtualbox
+- Build OVA file for virtualbox
 
 ```
-packer build thehive-cortex-misp_virtualbox.json
+packer build -only=virtualbox-iso thehive-cortex-misp.json
 ```
 
 `thehive-misp.ova` file is built and stored in a new folder called `output-thehive-misp`. It is ready to be imported in VMware or Virtualbox.
+If you have issues with the OVA on VMware generate a native VMWare image.
+
+- Build VM-Image file for VMWare
+
+```
+packer build -only=vmware-iso thehive-cortex-misp.json
+```
+
