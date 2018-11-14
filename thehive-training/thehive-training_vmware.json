@@ -1,7 +1,7 @@
 {
   "variables": {
     "builder_name": "thehive-training",
-    "guest_os_type":"ubuntu-64",
+    "guest_os_type":"Ubuntu_64",
     "vm_core": "2",
     "vm_memory": "4096",
     "vm_disk_size": "20000",
