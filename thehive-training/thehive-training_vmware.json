@@ -113,6 +113,11 @@
     "script": "scripts/{{user `builder_name`}}/init_cortex.sh"
   },
   {
+    "type": "shell",
+    "execute_command": "{{.Vars}} sudo -S -E bash '{{.Path}}'",
+    "script": "scripts/{{user `builder_name`}}/init_thehive.sh"
+  },
+  {
     "type": "file",
     "source": "conffiles/{{user `builder_name`}}/issue",
     "destination": "/tmp/issue"

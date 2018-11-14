@@ -19,7 +19,7 @@
     "name": "thehive",
     "type": "virtualbox-iso",
     "format":"ova",
-    "guest_os_type": "Ubuntu_64",
+    "guest_os_type": "{{user `guest_os_type`}}",
     "iso_url": "{{user `iso_url`}}",
     "iso_checksum": "{{user `iso_md5`}}",
     "iso_checksum_type": "md5",
@@ -114,8 +114,8 @@
   },
   {
     "type": "file",
-    "destination": "/tmp/issue",
-    "source": "conffiles/{{user `builder_name`}}/issue"
+    "source": "conffiles/{{user `builder_name`}}/issue",
+    "destination": "/tmp/issue"
   },
   {
     "type": "shell",
