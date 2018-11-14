@@ -6,7 +6,7 @@
     "iso_md5": "e8264fa4c417216f4304079bd94f895e",
     "vm_core": "2",
     "vm_memory": "4096",
-    "vm_disk_size": "20000",
+    "vm_disk_size": "25000",
     "vm_ssh_port": "22",
     "vm_ssh_username":"thehive",
     "vm_ssh_password":"thehive1234",
@@ -18,6 +18,7 @@
   "builders": [{
     "disk_size": "{{user `vm_disk_size`}}",
     "format":"ova",
+    "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
     "guest_os_type": "{{user `guest_os_type`}}",
     "hard_drive_interface": "sata",
     "headless": true,
@@ -63,7 +64,7 @@
         " netcfg/get_domain=vm<wait>",
         " netcfg/get_hostname=thehive-training<wait>",
         " grub-installer/bootdev=/dev/sda<wait>",
-        " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/thehive-training/preseed.cfg",
+        " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `builder_name`}}/preseed.cfg",
         " -- <wait>",
         "<enter><wait>"
       ],
