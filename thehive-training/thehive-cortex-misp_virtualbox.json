@@ -2,40 +2,42 @@
   "variables": {
     "builder_name": "thehive-cortex-misp-training",
     "guest_os_type":"ubuntu-64",
+    "iso_url": "http://cdimage.ubuntu.com/releases/18.04/release/ubuntu-18.04.1-server-amd64.iso",
+    "iso_md5": "e8264fa4c417216f4304079bd94f895e",
     "vm_core": "2",
     "vm_memory": "4096",
-    "vm_disk_size": "20000",
+    "vm_disk_size": "25000",
     "vm_ssh_port": "22",
     "vm_ssh_username":"misp",
     "vm_ssh_password":"Password1234",
     "vm_ssh_wait_timeout": "60m",
-    "iso_url": "http://cdimage.ubuntu.com/releases/18.04/release/ubuntu-18.04.1-server-amd64.iso",
-    "iso_md5": "e8264fa4c417216f4304079bd94f895e",
     "vm_name": "thehive-misp",
     "vm_description": "Virtual Machine with TheHive, Cortex and MISP",
     "vm_version": "3.1.0"
   },
   "builders": [{
-    "name": "thehive-misp",
-    "type": "virtualbox-iso",
+    "disk_size": "{{user `vm_disk_size`}}",
     "format":"ova",
+    "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
     "guest_os_type": "Ubuntu_64",
-    "iso_url": "{{user `iso_url`}}",
-    "iso_checksum": "{{user `iso_md5`}}",
-    "iso_checksum_type": "md5",
-    "vm_name": "{{user `vm_name`}}",
+    "hard_drive_interface": "sata",
     "headless": true,
     "http_directory": "http",
     "http_port_min" : 9901,
     "http_port_max" : 9911,
-    "disk_size": "{{user `vm_disk_size`}}",
-    "hard_drive_interface": "sata",
+    "iso_url": "{{user `iso_url`}}",
+    "iso_checksum": "{{user `iso_md5`}}",
+    "iso_checksum_type": "md5",
+    "name": "thehive-misp",
     "ssh_username": "{{user `vm_ssh_username`}}",
     "ssh_password": "{{user `vm_ssh_password`}}",
     "ssh_wait_timeout": "{{user `vm_ssh_wait_timeout`}}",
     "ssh_pty" : "true",
     "shutdown_command": "echo 'Shutting down thehive' ; sudo -S shutdown -P now",
     "shutdown_timeout": "10m",
+    "type": "virtualbox-iso",
+    "vm_name": "{{user `vm_name`}}",
+
     "export_opts":
      [
      "--manifest",
@@ -43,6 +45,7 @@
      "--description", "{{user `vm_description`}}",
      "--version", "{{user `vm_version`}}"
      ],
+
     "boot_command": [
         "<enter><wait><f6><esc><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
         "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
@@ -68,10 +71,17 @@
         " -- <wait>",
         "<enter><wait>"
       ],
+
     "vboxmanage": [
         ["modifyvm", "{{.Name}}", "--memory", "{{user `vm_memory`}}"],
         ["modifyvm", "{{.Name}}", "--cpus", "{{user `vm_core`}}"],
-        ["modifyvm", "{{.Name}}", "--natpf1", "ssh,tcp,127.0.0.1,2222,,22"]
+        ["modifyvm", "{{.Name}}", "--natpf1", "ssh,tcp,127.0.0.1,2222,,22"],
+        ["modifyvm", "{{.Name}}", "--natpf1", "http,tcp,,8080,,80" ],
+        ["modifyvm", "{{.Name}}", "--natpf1", "https,tcp,,8443,,443" ],
+        ["modifyvm", "{{.Name}}", "--audio", "none"],
+        ["modifyvm", "{{.Name}}", "--usb", "off"],
+        ["modifyvm", "{{.Name}}", "--vrde", "off"],
+        ["modifyvm", "{{.Name}}", "--vram", "32"]
     ]
   }],
 
@@ -132,6 +142,14 @@
       "execute_command":"{{.Vars}} sudo -S -E bash '{{.Path}}'",
       "script":"scripts/{{user `builder_name`}}/clean.sh"
     }
-    ]
+    ],
+  "post-processors": [
+    {
+        "keep_input_artifact": "false",
+        "keep_input_artifact": false,
+        "type": "checksum",
+        "checksum_types": ["sha1", "sha256", "sha384", "sha512"]
+    }
+  ]
 }
 
