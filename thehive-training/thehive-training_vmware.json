@@ -76,57 +76,57 @@
       }
 
   }],
-    "provisioners": [
-	{
-    		"type": "shell",
-    		"execute_command": "echo {{user `vm_ssh_password`}} | {{.Vars}} sudo -S -E bash '{{.Path}}'",
-    		"script": "scripts/{{user `builder_name`}}/user.sh"
-  	},
-	{
-    		"type": "shell",
-    		"execute_command": "echo | {{.Vars}} sudo -S -E bash '{{.Path}}'",
-    		"script": "scripts/{{user `builder_name`}}/interfaces.sh"
-  	},
-	{
-    		"type": "shell",
-    		"execute_command": "{{.Vars}} sudo -S -E bash '{{.Path}}'",
-    		"script": "scripts/{{user `builder_name`}}/installation.sh"
-  	},
-	{
-	        "destination": "/tmp/thehive_training-application.conf",
-	        "source": "conffiles/{{user `builder_name`}}/thehive_training-application.conf",
-	        "type": "file"
-	},
-	{
-	        "destination": "/tmp/cortex_training-application.conf",
-	        "source": "conffiles/{{user `builder_name`}}/cortex_training-application.conf",
-	        "type": "file"
-	},
-	{
-    		"type": "shell",
-    		"execute_command": "{{.Vars}} sudo -S -E bash '{{.Path}}'",
-    		"script": "scripts/{{user `builder_name`}}/configuration.sh"
-  	},
-    {
-            "type": "shell",
-            "execute_command": "{{.Vars}} sudo -S -E bash '{{.Path}}'",
-            "script": "scripts/{{user `builder_name`}}/init_cortex.sh"
-    },
-    {
-            "destination": "/tmp/issue",
-            "source": "conffiles/{{user `builder_name`}}/issue",
-            "type": "file"
-    },
-    {
-		"type": "shell",
-		"execute_command":"{{.Vars}} sudo -S -E bash '{{.Path}}'",
-		"script":"scripts/{{user `builder_name`}}/clean.sh"
-	}
-    ],
+  "provisioners": [
+  {
+    "type": "shell",
+    "execute_command": "echo {{user `vm_ssh_password`}} | {{.Vars}} sudo -S -E bash '{{.Path}}'",
+    "script": "scripts/{{user `builder_name`}}/user.sh"
+  },
+  {
+    "type": "shell",
+    "execute_command": "echo | {{.Vars}} sudo -S -E bash '{{.Path}}'",
+    "script": "scripts/{{user `builder_name`}}/interfaces.sh"
+  },
+  {
+    "type": "shell",
+    "execute_command": "{{.Vars}} sudo -S -E bash '{{.Path}}'",
+    "script": "scripts/{{user `builder_name`}}/installation.sh"
+  },
+  {
+    "type": "file",
+    "source": "conffiles/{{user `builder_name`}}/thehive_training-application.conf",
+    "destination": "/tmp/thehive_training-application.conf"
+  },
+  {
+    "type": "file",
+    "source": "conffiles/{{user `builder_name`}}/cortex_training-application.conf",
+    "destination": "/tmp/cortex_training-application.conf"
+  },
+  {
+    "type": "shell",
+    "execute_command": "{{.Vars}} sudo -S -E bash '{{.Path}}'",
+    "script": "scripts/{{user `builder_name`}}/configuration.sh"
+  },
+  {
+    "type": "shell",
+    "execute_command": "{{.Vars}} sudo -S -E bash '{{.Path}}'",
+    "script": "scripts/{{user `builder_name`}}/init_cortex.sh"
+  },
+  {
+    "type": "file",
+    "source": "conffiles/{{user `builder_name`}}/issue",
+    "destination": "/tmp/issue"
+  },
+  {
+    "type": "shell",
+    "execute_command":"{{.Vars}} sudo -S -E bash '{{.Path}}'",
+    "script":"scripts/{{user `builder_name`}}/clean.sh"
+  }
+  ],
   "post-processors": [
     {
-        "type": "shell-local",
-        "inline": ["{{ user `ovftool_path` }} output-{{user `builder_name`}}/{{user `vm_name`}}.vmx {{user `vm_name`}}.ova"]
+      "type": "shell-local",
+      "inline": ["{{ user `ovftool_path` }} output-{{user `builder_name`}}/{{user `vm_name`}}.vmx {{user `vm_name`}}.ova"]
     }
 ]
 }

@@ -4,11 +4,12 @@
 
 #### Virtualization solution
 
-- Virtualbox
+- [Virtualbox](https://www.virtualbox.org/wiki/Downloads)
+- [VMWare Workstation](https://www.vmware.com/content/vmware/vmware-published-sites/us/products/workstation-for-linux.html)
 
 #### Additional softwares
 
-- packer (https://www.packer.io)
+- [packer](https://www.packer.io)
 
 ## Tree
 
