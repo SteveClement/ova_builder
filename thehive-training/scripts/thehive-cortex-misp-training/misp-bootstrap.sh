@@ -130,6 +130,7 @@ sudo systemctl restart mariadb.service
 sleep 10
 sudo apt-get install -y expect > /dev/null 2>&1
 ## do we need to spawn mysql_secure_install with sudo in future?
+# If yes, see here: https://stackoverflow.com/a/52961331/610224
 expect -f - <<-EOF
   set timeout 10
   spawn mysql_secure_installation
@@ -670,7 +671,7 @@ sudo pip3 install -I . > /dev/null 2>&1
 sudo pip3 install lief 2>&1
 sudo pip3 install maec 2>&1
 sudo pip3 install pathlib 2>&1
-sudo pip3 install pymisp python-magic wand yara > /dev/null 2>&1
+sudo pip3 install pymisp python-magic wand > /dev/null 2>&1
 sudo pip3 install git+https://github.com/kbandla/pydeep.git > /dev/null 2>&1
 # install STIX2.0 library to support STIX 2.0 export:
 sudo pip3 install stix2 > /dev/null 2>&1
@@ -707,7 +708,6 @@ sudo -u misp /usr/local/src/viper/viper-cli -h > /dev/null 2>&1
 sudo -u misp /usr/local/src/viper/viper-web -p 8888 -H 0.0.0.0 &
 echo 'PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/local/src/viper"' |sudo tee /etc/environment
 
-# TODO: fix faup
 echo "--- Installing mail2misp ---"
 cd /usr/local/src/
 apt-get install -y cmake > /dev/null 2>&1
@@ -781,6 +781,11 @@ echo "--- Installing asciidoctor-pdf ---"
 gem install asciidoctor-pdf --pre > /dev/null 2>&1
 gem install pygments.rb > /dev/null 2>&1
 
+echo "--- Setting up jupyter notebook ---"
+sudo pip3 install jupyter
+echo $AUTH_KEY > $PATH_TO_MISP/PyMISP/docs/tutorial/apikey
+sed -i -e '$i \sudo -u www-data HOME="/var/www/MISP/PyMISP/" /usr/local/bin/jupyter-notebook --port=8889 --ip=0.0.0.0 --no-browser --NotebookApp.token='' --NotebookApp.notebook_dir=/var/www/MISP/PyMISP/docs/tutorial/ --NotebookApp.iopub_data_rate_limit=0 > /tmp/jupyter_rc.local.log &\n' /etc/rc.local
+
 echo "--- Ignoring filemode on all submodules ---"
 cd $PATH_TO_MISP
 sudo -u www-data git submodule foreach --recursive git config core.filemode false > /dev/null 2>&1
@@ -814,4 +819,3 @@ TIME_END=$(date +%s)
 TIME_DELTA=$(expr ${TIME_END} - ${TIME_START})
 
 echo "The generation took ${TIME_DELTA} seconds"
-
