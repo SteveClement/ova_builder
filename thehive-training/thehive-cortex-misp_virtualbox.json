@@ -71,7 +71,8 @@
     "vboxmanage": [
         ["modifyvm", "{{.Name}}", "--memory", "{{user `vm_memory`}}"],
         ["modifyvm", "{{.Name}}", "--cpus", "{{user `vm_core`}}"],
-        ["modifyvm", "{{.Name}}", "--natpf1", "ssh,tcp,127.0.0.1,2222,,22"]
+        ["modifyvm", "{{.Name}}", "--natpf1", "ssh,tcp,127.0.0.1,2222,,22"],
+	["modifyvm", "{{.Name}}", "--natpf1", "jupyter,tcp,127.0.0.1,8889,8889"]
     ]
   }],
     "provisioners": [
