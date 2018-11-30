@@ -1,0 +1,1 @@
+../thehive-training/init_cortex.sh

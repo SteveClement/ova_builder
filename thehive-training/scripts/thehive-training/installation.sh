@@ -7,15 +7,23 @@
 
 echo debconf shared/accepted-oracle-license-v1-1 select true |  debconf-set-selections
 echo debconf shared/accepted-oracle-license-v1-1 seen true |  debconf-set-selections
-echo "--- Adding Oracle JDK repository"
-echo 'deb http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main' |  tee -a /etc/apt/sources.list.d/java.list  > /dev/null 2>&1
- apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key EEA14886 > /dev/null 2>&1
- apt-get update > /dev/null 2>&1
+# echo "--- Adding Oracle JDK repository"
+# echo 'deb http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main' |  tee -a /etc/apt/sources.list.d/java.list  > /dev/null 2>&1
+#  apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key EEA14886 > /dev/null 2>&1
+#  apt-get update > /dev/null 2>&1
 
 
 
-echo "--- Installing Oracle JDK"
- apt-get install -y oracle-java8-installer > /dev/null 2>&1
+# echo "--- Installing Oracle JDK"
+#  apt-get install -y oracle-java8-installer > /dev/null 2>&1
+
+
+echo "--- Installing OpenJDK"
+
+sudo add-apt-repository ppa:openjdk-r/ppa -y > /dev/null 2>&1
+sudo apt-get update > /dev/null 2>&1
+sudo apt-get install -y openjdk-8-jre-headless > /dev/null 2>&1
+
 
 echo "--- Adding Elasticsearch repository"
 
@@ -74,7 +82,7 @@ sleep 20
 # Cortex-Analyzers
 echo "--- Installing Cortex-Analyzers"
 apt-get install -y  git > /dev/null 2>&1
-cd /opt && git clone https://github.com/CERT-BDF/Cortex-Analyzers.git > /dev/null 2>&1
+cd /opt && git clone https://github.com/Thehive-Project/Cortex-Analyzers.git > /dev/null 2>&1
 apt-get install -y python-pip python2.7-dev python3-pip ssdeep libfuzzy-dev libfuzzy2 libimage-exiftool-perl libmagic1 build-essential libssl-dev >  /dev/null 2>&1
 /usr/bin/python2 -m pip install -U pip > /dev/null 2>&1
 

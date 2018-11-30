@@ -109,7 +109,7 @@ update_thehive_configuration() {
     sudo sed  -i'.bak' -E "s|^( *key =).*|\1\"$key\"|" /etc/thehive/application.conf && ok
     [ -f /etc/thehive/application.conf.bak ] &&  sudo rm  /etc/thehive/application.conf.bak
     echo "--- Securing Cortex auth method"
-    sudo sed  -i'.bak' -E "s|^( *auth.method.basic.*)|#\1|" /etc/cortex/application.conf && ok
+    sudo sed  -i'.bak' -E "s|^( *method.basic.*)|#\1|" /etc/cortex/application.conf && ok
     [ -f /etc/cortex/application.conf.bak ] &&  sudo rm  /etc/cortex/application.conf.bak
 }
 
@@ -148,8 +148,8 @@ create_training_org
 create_training_thehive
 update_thehive_configuration
 activate_analyzer Abuse_Finder_2_0
-activate_analyzer FileInfo_4_0
-activate_analyzer EmlParser_1_0
+activate_analyzer FileInfo_5_0
+activate_analyzer EmlParser_1_1
 activate_analyzer MaxMind_GeoIP_3_0
 activate_analyzer UnshortenLink_1_0
 activate_analyzer Fortiguard_URLCategory_2_1

@@ -1,0 +1,20 @@
+Ubuntu 18.04.1 LTS \n \l
+
+---
+
+IP address: \4{eth0}
+
+---
+
+TheHive -> http://\4{eth0}:9000
+Cortex  -> http://\4{eth0}:9001
+MISP    -> http://\4{eth0}
+
+On VirtualBox port-forwarding from your host to the guest is in place:
+
+TheHive -> http://localhost:9000
+Cortex  -> http://localhost:9001
+MISP    -> http://localhost:8080
+
+If this fails, make sure the host machine is not occupying one of the forwarded ports or a firewall is active.
+----
