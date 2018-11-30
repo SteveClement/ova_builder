@@ -1,0 +1,38 @@
+---
+kind: pipeline
+name: default
+
+
+steps:
+  - name: restore-cache
+    image: drillster/drone-volume-cache
+    settings:
+      restore: true
+      mount:
+        - thehive-training/packer_cache
+    volumes: [{name: cache, path: /cache}]
+
+  - name: build
+    image: tooom/docker-vbox-packer
+    privileged: true
+    commands:
+      - cd thehive-training
+      - pwd
+      - packer build thehive-training_virtualbox.json
+      - cp output-thehive/thehive-training.ova /output/thehive-training-$${DRONE_BUILD_NUMBER}.ova
+      - ln -fs thehive-training-$${DRONE_BUILD_NUMBER}.ova /output/thehive-training-latest.ova
+    volumes: [{name: output, path: /output}]
+
+  - name: save-cache
+    image: drillster/drone-volume-cache
+    settings:
+      rebuild: true
+      mount:
+        - thehive-training/packer_cache
+    volumes: [{name: cache, path: /cache}]
+
+volumes:
+  - name: cache
+    host: {path: /opt/drone/cache}
+  - name: output
+    host: {path: /opt/drone/output}
