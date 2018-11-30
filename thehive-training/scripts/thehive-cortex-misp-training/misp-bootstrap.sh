@@ -130,6 +130,7 @@ sudo systemctl restart mariadb.service
 sleep 10
 sudo apt-get install -y expect > /dev/null 2>&1
 ## do we need to spawn mysql_secure_install with sudo in future?
+# If yes, see here: https://stackoverflow.com/a/52961331/610224
 expect -f - <<-EOF
   set timeout 10
   spawn mysql_secure_installation
@@ -649,7 +650,7 @@ sed -i -e '$i \echo never > /sys/kernel/mm/transparent_hugepage/enabled\n' /etc/
 sed -i -e '$i \echo 1024 > /proc/sys/net/core/somaxconn\n' /etc/rc.local
 sed -i -e '$i \sysctl vm.overcommit_memory=1\n' /etc/rc.local
 sed -i -e '$i \sudo -u www-data bash /var/www/MISP/app/Console/worker/start.sh > /tmp/worker_start_rc.local.log\n' /etc/rc.local
-sed -i -e '$i \sudo -u www-data misp-modules -l 0.0.0.0 -s > /tmp/misp-modules_rc.local.log &\n' /etc/rc.local
+sed -i -e '$i \sudo -u www-data misp-modules -l 0.0.0.0 -s > /tmp/misp-modules_rc.local.log 2> /dev/null &\n' /etc/rc.local
 sed -i -e '$i \sudo -u www-data bash /var/www/misp-dashboard/start_all.sh > /tmp/misp-dashboard_rc.local.log\n' /etc/rc.local
 sed -i -e '$i \sudo -u misp /usr/local/src/viper/viper-web -p 8888 -H 0.0.0.0 > /tmp/viper-web_rc.local.log &\n' /etc/rc.local
 sed -i -e '$i \git_dirs="/usr/local/src/misp-modules/ /var/www/misp-dashboard /usr/local/src/faup /usr/local/src/mail_to_misp /usr/local/src/misp-modules /usr/local/src/viper /var/www/misp-dashboard"\n' /etc/rc.local
@@ -670,7 +671,7 @@ sudo pip3 install -I . > /dev/null 2>&1
 sudo pip3 install lief 2>&1
 sudo pip3 install maec 2>&1
 sudo pip3 install pathlib 2>&1
-sudo pip3 install pymisp python-magic wand yara > /dev/null 2>&1
+sudo pip3 install pymisp python-magic wand > /dev/null 2>&1
 sudo pip3 install git+https://github.com/kbandla/pydeep.git > /dev/null 2>&1
 # install STIX2.0 library to support STIX 2.0 export:
 sudo pip3 install stix2 > /dev/null 2>&1
@@ -707,7 +708,6 @@ sudo -u misp /usr/local/src/viper/viper-cli -h > /dev/null 2>&1
 sudo -u misp /usr/local/src/viper/viper-web -p 8888 -H 0.0.0.0 &
 echo 'PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/local/src/viper"' |sudo tee /etc/environment
 
-# TODO: fix faup
 echo "--- Installing mail2misp ---"
 cd /usr/local/src/
 apt-get install -y cmake > /dev/null 2>&1
@@ -782,7 +782,7 @@ gem install asciidoctor-pdf --pre > /dev/null 2>&1
 gem install pygments.rb > /dev/null 2>&1
 
 echo "--- Setting up jupyter notebook ---"
-pip3 install -U -I jupyter
+sudo pip3 install jupyter
 echo $AUTH_KEY > $PATH_TO_MISP/PyMISP/docs/tutorial/apikey
 sed -i -e '$i \sudo -u www-data HOME="/var/www/MISP/PyMISP/" /usr/local/bin/jupyter-notebook --port=8889 --ip=0.0.0.0 --no-browser --NotebookApp.token='' --NotebookApp.notebook_dir=/var/www/MISP/PyMISP/docs/tutorial/ --NotebookApp.iopub_data_rate_limit=0 > /tmp/jupyter_rc.local.log &\n' /etc/rc.local
 
@@ -819,4 +819,3 @@ TIME_END=$(date +%s)
 TIME_DELTA=$(expr ${TIME_END} - ${TIME_START})
 
 echo "The generation took ${TIME_DELTA} seconds"
-
