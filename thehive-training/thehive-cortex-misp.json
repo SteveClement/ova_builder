@@ -5,7 +5,7 @@
     "iso_url": "http://cdimage.ubuntu.com/releases/18.04/release/ubuntu-18.04.1-server-amd64.iso",
     "iso_md5": "e8264fa4c417216f4304079bd94f895e",
     "vm_core": "2",
-    "vm_memory": "4096",
+    "vm_memory": "6144",
     "vm_disk_size": "25000",
     "vm_ssh_port": "22",
     "vm_ssh_username":"misp",
