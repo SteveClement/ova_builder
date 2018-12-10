@@ -62,7 +62,7 @@
 
 ## Run
 
-#### Build TheHive training VM 
+### Build TheHive training VM 
 
 - Validate recipe json file
 
