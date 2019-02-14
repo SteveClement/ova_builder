@@ -115,13 +115,19 @@ update_thehive_configuration() {
 
 activate_analyzer() {
     echo "--- Activating $1"
-    data='{
-            "configuration": {
-                "check_tlp": false,
-                "max_tlp": 2
-            },
-            "name": '\"$1\"'
-        }'
+    if [ "$2" ]
+    then
+      data="$2"
+    else  
+      data='{
+              "configuration": {
+                  "check_tlp": false,
+                  "max_tlp": 2
+              },
+              "name": '\"$1\"'
+          }'
+    fi
+
     status_code=$(curl -s -u thehive:thehive1234 "$CORTEX_URL/api/organization/analyzer/$1" \
         -H 'Content-Type: application/json' -d "$data" -o /dev/stderr -w '%{http_code}')
 
@@ -148,10 +154,23 @@ create_training_org
 create_training_thehive
 update_thehive_configuration
 activate_analyzer Abuse_Finder_2_0
-activate_analyzer FileInfo_5_0
+activate_analyzer FileInfo_5_0 '{
+  "name": "FileInfo_5_0",
+  "configuration": {
+    "manalyze_enable": false,
+    "manalyze_enable_docker": false,
+    "manalyze_enable_binary": false,
+    "auto_extract_artifacts": true,
+    "check_tlp": false,
+    "max_tlp": 2,
+    "check_pap": false,
+    "max_pap": 2
+  },
+  "jobCache": 0
+}'
 activate_analyzer EmlParser_1_1
 activate_analyzer MaxMind_GeoIP_3_0
-activate_analyzer UnshortenLink_1_0
+activate_analyzer UnshortenLink_1_1
 activate_analyzer Fortiguard_URLCategory_2_1
 activate_analyzer CyberCrime-Tracker_1_0
 restart_services
