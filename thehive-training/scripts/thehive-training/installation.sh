@@ -48,12 +48,13 @@ echo "--- Configuring Elasticsearch"
  cat >> /etc/elasticsearch/elasticsearch.yml <<EOF
 http.host: 127.0.0.1
 transport.host: 127.0.0.1
-script.inline: on
 cluster.name: hive
 thread_pool.index.queue_size: 100000
 thread_pool.search.queue_size: 100000
 thread_pool.bulk.queue_size: 100000
 path.repo: ["/opt/backup"]
+path.logs: "/var/log/elasticsearch"
+path.data: "/var/lib/elasticsearch"
 EOF
 echo "--- Starting Elasticsearch"
  systemctl enable elasticsearch.service > /dev/null 2>&1
@@ -80,16 +81,19 @@ apt-get install -y  thehive > /dev/null 2>&1
 sleep 20
 
 # Cortex-Analyzers
-echo "--- Installing Cortex-Analyzers"
-apt-get install -y  git > /dev/null 2>&1
-cd /opt && git clone https://github.com/Thehive-Project/Cortex-Analyzers.git > /dev/null 2>&1
-apt-get install -y python-pip python2.7-dev python3-pip ssdeep libfuzzy-dev libfuzzy2 libimage-exiftool-perl libmagic1 build-essential libssl-dev >  /dev/null 2>&1
-/usr/bin/python2 -m pip install -U pip > /dev/null 2>&1
+echo "--- Installing packages (docker.io, git)"
+apt-get install docker.io git 
 
-cd /opt && for I in Cortex-Analyzers/analyzers/*/requirements.txt; do sudo -H /usr/bin/python2 -m pip install -r $I; done && \
-for I in Cortex-Analyzers/analyzers/*/requirements.txt; do sudo -H /usr/bin/python3 -m pip install -r $I || true; done
-pip install thehive4py > /dev/null 2>&1
-pip3 install thehive4py > /dev/null 2>&1
-pip install cortex4py > /dev/null 2>&1
-pip3 install cortex4py > /dev/null 2>&1
-chown -R cortex:cortex /opt/Cortex-Analyzers
+# echo "--- Installing Cortex-Analyzers"
+# apt-get install -y  git > /dev/null 2>&1
+# cd /opt && git clone https://github.com/Thehive-Project/Cortex-Analyzers.git > /dev/null 2>&1
+# apt-get install -y python-pip python2.7-dev python3-pip ssdeep libfuzzy-dev libfuzzy2 libimage-exiftool-perl libmagic1 build-essential libssl-dev >  /dev/null 2>&1
+# /usr/bin/python2 -m pip install -U pip > /dev/null 2>&1
+
+# cd /opt && for I in Cortex-Analyzers/analyzers/*/requirements.txt; do sudo -H /usr/bin/python2 -m pip install -r $I; done && \
+# for I in Cortex-Analyzers/analyzers/*/requirements.txt; do sudo -H /usr/bin/python3 -m pip install -r $I || true; done
+# pip install thehive4py > /dev/null 2>&1
+# pip3 install thehive4py > /dev/null 2>&1
+# pip install cortex4py > /dev/null 2>&1
+# pip3 install cortex4py > /dev/null 2>&1
+# chown -R cortex:cortex /opt/Cortex-Analyzers
