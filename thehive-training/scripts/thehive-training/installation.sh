@@ -73,21 +73,25 @@ echo 'deb https://dl.bintray.com/thehive-project/debian-beta any main' |  tee -a
 
 
 # Cortex
+
+## install docker
+echo "--- Installing Docker"
+apt-get install -y docker.io git  > /dev/null 2>&1
+
 ##  Install Cortex
 echo "--- Installing Cortex"
 apt-get install -y  cortex > /dev/null 2>&1
 sleep 20
+
+## Install TheHive
 echo "--- Installing TheHive"
 apt-get install -y  thehive > /dev/null 2>&1
 
 sleep 20
 
 # Cortex-Analyzers
-echo "--- Installing packages (docker.io, git)"
-apt-get install -y docker.io git  > /dev/null 2>&1
-
 ## Giving user cortex rights to run docker
-sudo usermod -a -G docker cortex
+usermod -a -G docker cortex
 
 # echo "--- Installing Cortex-Analyzers"
 # apt-get install -y  git > /dev/null 2>&1
