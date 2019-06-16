@@ -154,8 +154,9 @@ create_training_org
 create_training_thehive
 update_thehive_configuration
 activate_analyzer Abuse_Finder_2_0
+activate_analyzer DShield_lookup_1_0
 activate_analyzer FileInfo_6_0 '{
-  "name": "FileInfo_5_0",
+  "name": "FileInfo_6_0",
   "configuration": {
     "manalyze_enable": false,
     "manalyze_enable_docker": false,

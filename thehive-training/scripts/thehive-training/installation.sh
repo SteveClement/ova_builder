@@ -20,19 +20,18 @@ echo debconf shared/accepted-oracle-license-v1-1 seen true |  debconf-set-select
 
 echo "--- Installing OpenJDK"
 
-sudo add-apt-repository ppa:openjdk-r/ppa -y > /dev/null 2>&1
-sudo apt-get update > /dev/null 2>&1
-sudo apt-get install -y openjdk-8-jre-headless > /dev/null 2>&1
+add-apt-repository ppa:openjdk-r/ppa -y > /dev/null 2>&1 
+apt-get update > /dev/null 2>&1
+apt-get install -y openjdk-8-jre-headless > /dev/null 2>&1
 
 
 echo "--- Adding Elasticsearch repository"
 
 
 # PGP key installation
- apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key D88E42B4 > /dev/null 2>&1
-
-echo "deb https://artifacts.elastic.co/packages/5.x/apt stable main" |  tee -a /etc/apt/sources.list.d/elastic-5.x.list > /dev/null 2>&1
-
+#apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key D88E42B4 
+wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch |  apt-key add - > /dev/null 2>&1
+echo "deb https://artifacts.elastic.co/packages/6.x/apt stable main" |  tee -a /etc/apt/sources.list.d/elastic-6.x.list > /dev/null 2>&1
 # Install https support for apt
  apt-get install apt-transport-https > /dev/null 2>&1
 
@@ -49,6 +48,9 @@ echo "--- Configuring Elasticsearch"
 http.host: 127.0.0.1
 transport.host: 127.0.0.1
 cluster.name: hive
+node.name: hive01
+node.master: true
+node.data: true
 thread_pool.index.queue_size: 100000
 thread_pool.search.queue_size: 100000
 thread_pool.bulk.queue_size: 100000
@@ -82,7 +84,10 @@ sleep 20
 
 # Cortex-Analyzers
 echo "--- Installing packages (docker.io, git)"
-apt-get install docker.io git 
+apt-get install -y docker.io git  > /dev/null 2>&1
+
+## Giving user cortex rights to run docker
+sudo usermod -a -G docker cortex
 
 # echo "--- Installing Cortex-Analyzers"
 # apt-get install -y  git > /dev/null 2>&1
