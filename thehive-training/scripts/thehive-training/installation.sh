@@ -88,16 +88,12 @@ sleep 20
 ## Giving user cortex rights to run docker
 usermod -a -G docker cortex
 
-# echo "--- Installing Cortex-Analyzers"
+# echo "--- Installing python tools"
 # apt-get install -y  git > /dev/null 2>&1
-# cd /opt && git clone https://github.com/Thehive-Project/Cortex-Analyzers.git > /dev/null 2>&1
-# apt-get install -y python-pip python2.7-dev python3-pip ssdeep libfuzzy-dev libfuzzy2 libimage-exiftool-perl libmagic1 build-essential libssl-dev >  /dev/null 2>&1
-# /usr/bin/python2 -m pip install -U pip > /dev/null 2>&1
+apt-get install -y python-pip python2.7-dev python3-pip ssdeep libfuzzy-dev libfuzzy2 libimage-exiftool-perl libmagic1 build-essential libssl-dev >  /dev/null 2>&1
+/usr/bin/python2 -m pip install -U pip > /dev/null 2>&1
+pip install thehive4py > /dev/null 2>&1
+pip3 install thehive4py > /dev/null 2>&1
+pip install cortex4py > /dev/null 2>&1
+pip3 install cortex4py > /dev/null 2>&1
 
-# cd /opt && for I in Cortex-Analyzers/analyzers/*/requirements.txt; do sudo -H /usr/bin/python2 -m pip install -r $I; done && \
-# for I in Cortex-Analyzers/analyzers/*/requirements.txt; do sudo -H /usr/bin/python3 -m pip install -r $I || true; done
-# pip install thehive4py > /dev/null 2>&1
-# pip3 install thehive4py > /dev/null 2>&1
-# pip install cortex4py > /dev/null 2>&1
-# pip3 install cortex4py > /dev/null 2>&1
-# chown -R cortex:cortex /opt/Cortex-Analyzers
