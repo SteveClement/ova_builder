@@ -48,15 +48,10 @@ echo "--- Configuring Elasticsearch"
 http.host: 127.0.0.1
 transport.host: 127.0.0.1
 cluster.name: hive
-node.name: hive01
-node.master: true
-node.data: true
 thread_pool.index.queue_size: 100000
 thread_pool.search.queue_size: 100000
 thread_pool.bulk.queue_size: 100000
 path.repo: ["/opt/backup"]
-path.logs: "/var/log/elasticsearch"
-path.data: "/var/lib/elasticsearch"
 EOF
 echo "--- Starting Elasticsearch"
  systemctl enable elasticsearch.service > /dev/null 2>&1
