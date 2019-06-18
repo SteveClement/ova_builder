@@ -2,8 +2,8 @@
   "variables": {
     "builder_name": "thehive-training",
     "guest_os_type":"Ubuntu_64",
-    "iso_url": "http://cdimage.ubuntu.com/releases/18.04/release/ubuntu-18.04.1-server-amd64.iso",
-    "iso_md5": "e8264fa4c417216f4304079bd94f895e",
+    "iso_url": "http://cdimage.ubuntu.com/releases/18.04/release/ubuntu-18.04.2-server-amd64.iso",
+    "iso_md5": "34416ff83179728d54583bf3f18d42d2",
     "vm_core": "2",
     "vm_memory": "4096",
     "vm_disk_size": "25000",
