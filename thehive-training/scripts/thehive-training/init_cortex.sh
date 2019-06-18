@@ -47,7 +47,13 @@ check() {
 check_service() {
     echo "--- Checking if Cortex service is running"
     ss -antl
-    sleep 120
+    service cortex status
+    service thehive status
+    echo "---- sleeping 160"
+    sleep 160
+    ss -antl
+    service cortex status
+    service thehive status
     check 200 "$CORTEX_URL/index.html"
 }
 
