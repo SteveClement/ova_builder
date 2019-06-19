@@ -55,8 +55,6 @@ check_service() {
     netstat -tunlp
     echo "---- Cortex conf"
     cat /etc/cortex/application.conf
-    service cortex status
-    service thehive status
     echo "---- cortex application.log"
     cat /var/log/cortex/application.log
     check 200 "$CORTEX_URL/index.html"
