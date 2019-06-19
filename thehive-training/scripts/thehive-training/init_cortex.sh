@@ -46,15 +46,19 @@ check() {
 # Check service is alive
 check_service() {
     echo "--- Checking if Cortex service is running"
-    ss -antl
+    echo "---- netstat "
+    netstat -tunlp
     service cortex status
-    service thehive status
     echo "---- sleeping 160"
     sleep 160
-    ss -antl
+    echo "---- sleeping 160"
+    netstat -tunlp
+    echo "---- Cortex conf"
     cat /etc/cortex/application.conf
     service cortex status
     service thehive status
+    echo "---- cortex application.log"
+    cat /var/log/cortex/application.log
     check 200 "$CORTEX_URL/index.html"
 }
 
