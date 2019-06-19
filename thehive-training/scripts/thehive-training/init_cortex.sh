@@ -52,6 +52,7 @@ check_service() {
     echo "---- sleeping 160"
     sleep 160
     ss -antl
+    cat /etc/cortex/application.conf
     service cortex status
     service thehive status
     check 200 "$CORTEX_URL/index.html"
