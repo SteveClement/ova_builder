@@ -63,7 +63,7 @@ echo "--- Starting Elasticsearch"
 
 echo "--- Adding TheHive and Cortex repository"
  apt-get -qq update > /dev/null 2>&1
-echo 'deb https://dl.bintray.com/thehive-project/debian-beta any main' |  tee -a /etc/apt/sources.list.d/thehive-project.list > /dev/null 2>&1
+echo 'deb https://dl.bintray.com/thehive-project/debian-stable any main' |  tee -a /etc/apt/sources.list.d/thehive-project.list > /dev/null 2>&1
 
  wget -O- "https://raw.githubusercontent.com/TheHive-Project/TheHive/master/PGP-PUBLIC-KEY" | apt-key add -
  apt-get update > /dev/null 2>&1
