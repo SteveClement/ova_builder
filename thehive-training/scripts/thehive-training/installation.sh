@@ -5,8 +5,8 @@
  echo "LC_ALL=en_US.UTF-8" >> /etc/environment
  echo "LC_CTYPE=en_US.UTF-8" >> /etc/environment
 
-echo debconf shared/accepted-oracle-license-v1-1 select true |  debconf-set-selections
-echo debconf shared/accepted-oracle-license-v1-1 seen true |  debconf-set-selections
+#echo debconf shared/accepted-oracle-license-v1-1 select true |  debconf-set-selections
+#echo debconf shared/accepted-oracle-license-v1-1 seen true |  debconf-set-selections
 # echo "--- Adding Oracle JDK repository"
 # echo 'deb http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main' |  tee -a /etc/apt/sources.list.d/java.list  > /dev/null 2>&1
 #  apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key EEA14886 > /dev/null 2>&1
@@ -71,7 +71,12 @@ echo 'deb https://dl.bintray.com/thehive-project/debian-beta any main' |  tee -a
 
 ## install docker
 echo "--- Installing Docker"
-apt-get install -y docker.io git  > /dev/null 2>&1
+apt-get update > /dev/null 2>&1
+apt-get install -y apt-transport-https ca-certificates curl software-properties-common
+wget -O- https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
+apt-get update > /dev/null 2>&1
+apt-get install -y docker-ce
 
 ##  Install Cortex
 echo "--- Installing Cortex"
