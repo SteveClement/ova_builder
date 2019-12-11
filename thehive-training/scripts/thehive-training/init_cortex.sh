@@ -165,8 +165,9 @@ create_training_thehive
 update_thehive_configuration
 activate_analyzer Abuse_Finder_2_0
 activate_analyzer DShield_lookup_1_0
-activate_analyzer FileInfo_6_0 '{
-  "name": "FileInfo_6_0",
+
+activate_analyzer FileInfo_7_0 '{ 
+  "name": "FileInfo_7_0",
   "configuration": {
     "manalyze_enable": false,
     "manalyze_enable_docker": false,
@@ -181,7 +182,10 @@ activate_analyzer FileInfo_6_0 '{
 }'
 activate_analyzer EmlParser_1_2
 activate_analyzer MaxMind_GeoIP_3_0
-activate_analyzer UnshortenLink_1_1
+activate_analyzer UnshortenLink_1_2
 activate_analyzer Fortiguard_URLCategory_2_1
 activate_analyzer CyberCrime-Tracker_1_0
+activate_analyzer TalosReputation_1_0
+activate_analyzer URLhaus_2_0
+activate_analyzer Urlscan_io_Search_0_1_0
 restart_services
