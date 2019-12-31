@@ -46,7 +46,17 @@ check() {
 # Check service is alive
 check_service() {
     echo "--- Checking if Cortex service is running"
-    sleep 120
+    echo "---- netstat "
+    netstat -tunlp
+    service cortex status
+    echo "---- sleeping 160"
+    sleep 160
+    echo "---- sleeping 160"
+    netstat -tunlp
+    echo "---- Cortex conf"
+    cat /etc/cortex/application.conf
+    echo "---- cortex application.log"
+    cat /var/log/cortex/application.log
     check 200 "$CORTEX_URL/index.html"
 }
 
@@ -154,8 +164,10 @@ create_training_org
 create_training_thehive
 update_thehive_configuration
 activate_analyzer Abuse_Finder_2_0
-activate_analyzer FileInfo_5_0 '{
-  "name": "FileInfo_5_0",
+activate_analyzer DShield_lookup_1_0
+
+activate_analyzer FileInfo_7_0 '{ 
+  "name": "FileInfo_7_0",
   "configuration": {
     "manalyze_enable": false,
     "manalyze_enable_docker": false,
@@ -168,9 +180,12 @@ activate_analyzer FileInfo_5_0 '{
   },
   "jobCache": 0
 }'
-activate_analyzer EmlParser_1_1
+activate_analyzer EmlParser_1_2
 activate_analyzer MaxMind_GeoIP_3_0
-activate_analyzer UnshortenLink_1_1
+activate_analyzer UnshortenLink_1_2
 activate_analyzer Fortiguard_URLCategory_2_1
 activate_analyzer CyberCrime-Tracker_1_0
+activate_analyzer TalosReputation_1_0
+activate_analyzer URLhaus_2_0
+activate_analyzer Urlscan_io_Search_0_1_0
 restart_services
