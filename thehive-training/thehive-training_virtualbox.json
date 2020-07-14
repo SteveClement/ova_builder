@@ -26,7 +26,7 @@
     "http_directory": "http",
     "iso_url": "{{user `iso_url`}}",
     "iso_checksum": "{{user `iso_checksum`}}",
-    "iso_checksum_type": "iso_checksum_type",
+    "iso_checksum_type": "{{user iso_checksum_type}}",
     "name": "thehive",
     "ssh_username": "{{user `vm_ssh_username`}}",
     "ssh_password": "{{user `vm_ssh_password`}}",
