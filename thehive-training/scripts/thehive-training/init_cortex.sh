@@ -116,7 +116,7 @@ update_thehive_configuration() {
     check 200 "$CORTEX_URL/api/user/thehive" -H 'Content-Type: application/json' \
         -H "Authorization: Bearer $key"
     echo "--- Updating thehive configuration with Cortex API key"
-    sudo sed  -i'.bak' -E "s|^( *key =).*|\1\"$key\"|" /etc/thehive/application.conf && ok
+    sudo sed  -i'.bak' -E "s|^( *key:).*|\1\"$key\"|" /etc/thehive/application.conf && ok
     [ -f /etc/thehive/application.conf.bak ] &&  sudo rm  /etc/thehive/application.conf.bak
     echo "--- Securing Cortex auth method"
     sudo sed  -i'.bak' -E "s|^( *method.basic.*)|#\1|" /etc/cortex/application.conf && ok

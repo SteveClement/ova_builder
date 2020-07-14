@@ -50,26 +50,7 @@ check_service() {
     check 200 "$THEHIVE_URL/index.html"
 }
 
-create_index() {
-    # Create the index
-    echo "--- Creating TheHive index"
-    check 204 -XPOST "$THEHIVE_URL/api/maintenance/migrate" 
-}
 
-create_admin() {
-    echo "--- Creating TheHive admin user"
-    check 201 "$THEHIVE_URL/api/user" -H 'Content-Type: application/json' -d '
-            {
-              "login" : "admin",
-              "name" : "admin",
-              "roles" : [
-                  "read",
-                  "write",
-                  "admin"
-               ],
-              "password" : "thehive1234"
-            }'
-}
 
 add_templates() {
     key=$1
@@ -84,16 +65,16 @@ add_templates() {
 
 update_thehive_configuration() {
     echo "--- Creating thehive api key"
-    key=$(curl -s -u admin:thehive1234 "$THEHIVE_URL/api/user/admin/key/renew" -d '')
+    key=$(curl -s -u admin@thehive.local:secret "$THEHIVE_URL/api/user/admin/key/renew" -d '')
 
     check 200 "$THEHIVE_URL/api/user/admin" -H 'Content-Type: application/json' \
         -H "Authorization: Bearer $key"
 
-    add_templates $key
+    #add_templates $key
 
-    echo "--- Securing TheHive auth method"
-    sudo sed  -i'.bak' -E "s|^( *method.basic.*)|#\1|" /etc/thehive/application.conf && ok
-    [ -f /etc/thehive/application.conf.bak ] &&  sudo rm  /etc/thehive/application.conf.bak
+    #echo "--- Securing TheHive auth method"
+    #sudo sed  -i'.bak' -E "s|^( *method.basic.*)|#\1|" /etc/thehive/application.conf && ok
+    #[ -f /etc/thehive/application.conf.bak ] &&  sudo rm  /etc/thehive/application.conf.bak
 }
 
 
@@ -102,7 +83,5 @@ restart_services() {
     sudo service thehive restart && ok
 } 
 check_service
-create_index
-create_admin
 update_thehive_configuration
 restart_services

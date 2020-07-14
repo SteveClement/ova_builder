@@ -22,10 +22,10 @@ echo "--- Installing OpenJDK"
 
 add-apt-repository ppa:openjdk-r/ppa -y > /dev/null 2>&1 
 apt-get update > /dev/null 2>&1
-apt-get install -y openjdk-8-jre-headless > /dev/null 2>&1
+apt-get install -y openjdk-11-jre-headless > /dev/null 2>&1
 
 
-echo "--- Adding Elasticsearch repository"
+echo "--- Adding Elasticsearch repository for Cortex"
 
 
 # PGP key installation
@@ -60,11 +60,10 @@ echo "--- Starting Elasticsearch"
 
 
 echo "--- Adding TheHive and Cortex repository"
- apt-get -qq update > /dev/null 2>&1
-echo 'deb https://dl.bintray.com/thehive-project/debian-stable any main' |  tee -a /etc/apt/sources.list.d/thehive-project.list > /dev/null 2>&1
 
- wget -O- "https://raw.githubusercontent.com/TheHive-Project/TheHive/master/PGP-PUBLIC-KEY" | apt-key add -
- apt-get update > /dev/null 2>&1
+wget -O- "https://raw.githubusercontent.com/TheHive-Project/TheHive/master/PGP-PUBLIC-KEY"  | sudo apt-key add -
+echo 'deb https://deb.thehive-project.org beta main' | sudo tee -a /etc/apt/sources.list.d/thehive-project.list
+sudo apt-get update > /dev/null 2>&1
 
 
 # Cortex
@@ -85,7 +84,9 @@ sleep 20
 
 ## Install TheHive
 echo "--- Installing TheHive"
-apt-get install -y  thehive > /dev/null 2>&1
+mkdir /opt/thp_data/berkeleydb/thehive
+mkdir /opt/thp_data/files/thehive
+apt-get install -y  thehive4 > /dev/null 2>&1
 
 sleep 20
 
