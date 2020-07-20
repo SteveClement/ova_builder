@@ -1,0 +1,104 @@
+{
+    "builders": [
+        {
+            "export_opts": [
+                "--manifest",
+                "--vsys",
+                "0",
+                "--description",
+                "{{user `vm_description`}}",
+                "--version",
+                "{{user `vm_version`}}"
+            ],
+            "output_directory": "output-thehive",
+            "format": "ova",
+            "headless": true,
+            "name": "thehive",
+            "shutdown_command": "echo 'thehive1234' | sudo -S shutdown -hP now",
+            "shutdown_timeout": "10m",
+            "ssh_password": "{{user `vm_ssh_password`}}",
+            "ssh_timeout": "{{user `vm_ssh_wait_timeout`}}",
+            "ssh_username": "{{user `vm_ssh_username`}}",
+            "type": "virtualbox-ovf",
+            "source_path": "output_core/ubuntu_core.ova",
+            "vm_name": "{{user `vm_name`}}"
+        }
+    ],
+    "post-processors": [
+        {
+            "checksum_types": [
+                "sha1",
+                "sha256",
+                "sha384",
+                "sha512"
+            ],
+            "keep_input_artifact": false,
+            "type": "checksum"
+        }
+    ],
+    "provisioners": [
+        {
+            "execute_command": "echo {{user `vm_ssh_password`}} | {{.Vars}} sudo -S -E bash '{{.Path}}'",
+            "script": "scripts/{{user `builder_name`}}/user.sh",
+            "type": "shell"
+        },
+        {
+            "execute_command": "echo | {{.Vars}} sudo -S -E bash '{{.Path}}'",
+            "script": "scripts/{{user `builder_name`}}/interfaces.sh",
+            "type": "shell"
+        },
+        {
+            "execute_command": "{{.Vars}} sudo -S -E bash '{{.Path}}'",
+            "script": "scripts/{{user `builder_name`}}/v3/installation.sh",
+            "type": "shell"
+        },
+        {
+            "destination": "/tmp/thehive_training-application.conf",
+            "source": "conffiles/{{user `builder_name`}}/thehive_v3_training-application.conf",
+            "type": "file"
+        },
+        {
+            "destination": "/tmp/cortex_training-application.conf",
+            "source": "conffiles/{{user `builder_name`}}/cortex_v3_training-application.conf",
+            "type": "file"
+        },
+        {
+            "execute_command": "{{.Vars}} sudo -S -E bash '{{.Path}}'",
+            "script": "scripts/{{user `builder_name`}}/v3/configuration.sh",
+            "type": "shell"
+        },
+        {
+            "execute_command": "{{.Vars}} sudo -S -E bash '{{.Path}}'",
+            "script": "scripts/{{user `builder_name`}}/v3/init_cortex.sh",
+            "type": "shell"
+        },
+        {
+            "execute_command": "{{.Vars}} sudo -S -E bash '{{.Path}}'",
+            "script": "scripts/{{user `builder_name`}}/v3/init_thehive.sh",
+            "type": "shell"
+        },
+        {
+            "destination": "/tmp/issue",
+            "source": "conffiles/{{user `builder_name`}}/issue",
+            "type": "file"
+        },
+        {
+            "execute_command": "{{.Vars}} sudo -S -E bash '{{.Path}}'",
+            "script": "scripts/{{user `builder_name`}}/clean.sh",
+            "type": "shell"
+        }
+    ],
+    "variables": {
+        "builder_name": "thehive-training",
+        "guest_os_type": "Ubuntu_64",
+        "iso_checksum": "36f15879bd9dfd061cd588620a164a82972663fdd148cce1f70d57d314c21b73",
+        "iso_checksum_type": "sha256",
+        "vm_description": "TheHive training Virtual Machine",
+        "vm_name": "thehive-training",
+        "vm_ssh_password": "thehive1234",
+        "vm_ssh_port": "22",
+        "vm_ssh_username": "thehive",
+        "vm_ssh_wait_timeout": "3600s",
+        "vm_version": "3.4.0"
+    }
+}

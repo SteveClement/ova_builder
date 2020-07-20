@@ -18,7 +18,8 @@ steps:
     commands:
       - cd thehive-training
       - pwd
-      - packer build thehive-training_virtualbox.json
+      - packer build ubuntu_core.json
+      - packer build thehive-training_v4.json
       - cp output-thehive/thehive-training.ova /output/thehive-training-$${DRONE_BUILD_NUMBER}.ova
       - ln -fs thehive-training-$${DRONE_BUILD_NUMBER}.ova /output/thehive-training-latest.ova
     volumes: [{name: output, path: /output}]
