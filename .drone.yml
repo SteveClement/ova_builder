@@ -36,10 +36,10 @@ steps:
   - name: scp ova and sha256 files
     image: appleboy/drone-scp
     settings:
-      host: {from_secret: scp_host}
-      username: {from_secret: scp_user}
-      key: {from_secret: scp_key}
-      target: {from_secret: scp_path}
+      host: {from_secret: package_host}
+      username: {from_secret: package_user}
+      key: {from_secret: package_key}
+      target: {from_secret: package_path}
       source:
         - /output/thehive-training-${DRONE_BUILD_NUMBER}.ova
         - /output/thehive-training-latest.ova
