@@ -5,14 +5,15 @@
  echo "LC_ALL=en_US.UTF-8" >> /etc/environment
  echo "LC_CTYPE=en_US.UTF-8" >> /etc/environment
 
+
 echo "--- Installing OpenJDK"
 
 add-apt-repository ppa:openjdk-r/ppa -y > /dev/null 2>&1 
 apt-get update > /dev/null 2>&1
-apt-get install -y openjdk-11-jre-headless > /dev/null 2>&1
+apt-get install -y openjdk-8-jre-headless > /dev/null 2>&1
 
 
-echo "--- Adding Elasticsearch repository for Cortex"
+echo "--- Adding Elasticsearch repository"
 
 
 # PGP key installation
@@ -47,10 +48,11 @@ echo "--- Starting Elasticsearch"
 
 
 echo "--- Adding TheHive and Cortex repository"
+ apt-get -qq update > /dev/null 2>&1
+echo 'deb https://dl.bintray.com/thehive-project/debian-stable any main' |  tee -a /etc/apt/sources.list.d/thehive-project.list > /dev/null 2>&1
 
-wget -O- "https://raw.githubusercontent.com/TheHive-Project/TheHive/master/PGP-PUBLIC-KEY"  | sudo apt-key add -
-echo 'deb https://deb.thehive-project.org beta main' | sudo tee -a /etc/apt/sources.list.d/thehive-project.list
-sudo apt-get update > /dev/null 2>&1
+ wget -O- "https://raw.githubusercontent.com/TheHive-Project/TheHive/master/PGP-PUBLIC-KEY" | apt-key add -
+ apt-get update > /dev/null 2>&1
 
 
 # Cortex
@@ -60,7 +62,7 @@ echo "--- Installing Docker"
 apt-get update > /dev/null 2>&1
 apt-get install -y apt-transport-https ca-certificates curl software-properties-common
 wget -O- https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"
+add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
 apt-get update > /dev/null 2>&1
 apt-get install -y docker-ce
 
@@ -71,18 +73,15 @@ sleep 20
 
 ## Install TheHive
 echo "--- Installing TheHive"
-mkdir -p /opt/thp_data/berkeleydb/thehive
-mkdir -p /opt/thp_data/files/thehive
-apt-get install -y  thehive4 > /dev/null 2>&1
-sleep 20
-chown -R thehive:thehive /opt/thp_data
+apt-get install -y  thehive > /dev/null 2>&1
 
+sleep 20
 
 # Cortex-Analyzers
 ## Giving user cortex rights to run docker
 usermod -a -G docker cortex
 
-echo "--- Installing python tools"
+# echo "--- Installing python tools"
 # apt-get install -y  git > /dev/null 2>&1
 apt-get install -y python-pip-whl python2.7-dev python3-pip ssdeep libfuzzy-dev libfuzzy2 libimage-exiftool-perl libmagic1 build-essential libssl-dev >  /dev/null 2>&1
 /usr/bin/python2 -m pip install -U pip > /dev/null 2>&1
@@ -90,4 +89,3 @@ pip install thehive4py > /dev/null 2>&1
 pip3 install thehive4py > /dev/null 2>&1
 pip install cortex4py > /dev/null 2>&1
 pip3 install cortex4py > /dev/null 2>&1
-
